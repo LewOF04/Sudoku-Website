@@ -1,0 +1,28 @@
+{
+  "name": "sudoku-website",
+  "version": "1.0.0",
+  "description": "This is a website to produce and play unlimited games of sudoku.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LewOF04/Sudoku-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/LewOF04/Sudoku-Website/issues"
+  },
+  "homepage": "https://github.com/LewOF04/Sudoku-Website#readme",
+  "devDependencies": {
+    "vitest": "^4.1.11"
+  }
+}

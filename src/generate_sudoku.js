@@ -6,19 +6,19 @@
  * [online] Available at: https://arxiv.org/pdf/2507.09708 [Accessed 20 Aug. 2026].
  */
 
-import {grid9x9, getRow, getColumn, get3x3Grid, getNum, copy, toString} from "./grid9x9.js";
+import {grid9x9} from "./grid9x9.js";
 
 function isValidMove(grid, row, col, num){
     let rowArr = grid.getRow(row);
     let colArr = grid.getColumn(col);
 
-    let rowIdx = row % 3;
-    let colIdx = col % 3;
+    let rowIdx = Math.floor(row / 3);
+    let colIdx = Math.floor(col / 3);
 
     let gridNum = colIdx + (3 * rowIdx);
     let grid3x3Arr = grid.get3x3Grid(gridNum);
 
-    if(num in rowArr || num in colArr || num in grid3x3Arr) return false;
+    if(rowArr.includes(num) || colArr.includes(num) || grid3x3Arr.includes(num)) return false;
 
     return true;
 }
@@ -45,7 +45,7 @@ function solveSudoku(grid){
         if(isValidMove(grid, emptyLoc[0], emptyLoc[1], num)){
             grid.grid[emptyLoc[0]][emptyLoc[1]] = num;
             if(solveSudoku(grid)) return true;
-            grid.grid[emptyLoc[0]][emptyLoc[1]] = num;
+            grid.grid[emptyLoc[0]][emptyLoc[1]] = 0;
         }
     }
     return false;
@@ -61,9 +61,10 @@ function randomizeArray(array){
     let itr = 0;
     while(arrayTrack.length != 0){
         idx = Math.floor(Math.random() * arrayTrack.length);
-        arrayTrack.splice(idx, 1);
 
         newArray[itr] = array[arrayTrack[idx]];
+
+        arrayTrack.splice(idx, 1);
         itr++;
     }
     
@@ -75,7 +76,7 @@ export function generateSudoku(clueNum){
 
     let idx = [0, 3, 6];
     for(let i = 0; i< 3; i++){
-        let numbers = randomizeArray([1,2,3,4,5,6,7,8]);
+        let numbers = randomizeArray([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
         for(let j = 0; j < 3; j++){
             for(let k = 0; k < 3; k++){
@@ -91,7 +92,7 @@ export function generateSudoku(clueNum){
     //decide which cells to remove
     let cells = [];
     for(let k = 0; k < 9; k++){
-        for(let z = 0; z < 8; z++){
+        for(let z = 0; z < 9; z++){
             let string = k.toString() + z.toString();
             cells[(k * 9) + z] = string;
         }
