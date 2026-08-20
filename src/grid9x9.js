@@ -1,4 +1,4 @@
-class grid9x9{
+export class grid9x9{
     constructor(){
         this.grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -12,13 +12,12 @@ class grid9x9{
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ];
     }
-    
 
-    getRow(row){
+    export getRow(row){
         return this.grid[row];
     } 
 
-    getColumn(col){
+    export getColumn(col){
         let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         for(let i = 0; i < 9; i++){
@@ -28,7 +27,7 @@ class grid9x9{
         return tempArr;
     }
 
-    get3x3Grid(idx){
+    export get3x3Grid(idx){
         /*
         0 | 1 | 2
         3 | 4 | 5
@@ -51,5 +50,39 @@ class grid9x9{
         }
 
         return tempArr;
+    }
+
+    export getNum(row, col){
+        return this.grid[row][col];
+    }
+
+    export copy(){
+        let newGrid = [];
+
+        for(let i = 0; i < 9; i++){
+            let tempArr = [];
+            for(let j = 0; j < 9; j++){
+                tempArr[j] = this.grid[i][j];
+            }
+            newGrid[i] = tempArr;
+        }
+
+        let newObj = new grid9x9();
+        newObj.grid = newGrid;
+
+        return newGrid;
+    }
+
+    export toString(){
+        let string = "----".repeat(9) + "\n";
+
+        for(let i = 0; i < 9; i++){
+            for(let j = 0; j < 9; j++){
+                string += "| " + this.grid[i][j].toString() + " ";
+            }
+            string += "|\n" + "----".repeat(9) + "\n";
+        }
+
+        return string;
     }
 }
