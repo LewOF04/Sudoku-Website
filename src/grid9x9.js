@@ -85,4 +85,13 @@ export class grid9x9{
 
         return string;
     }
+
+    export equal(otherGrid){
+        for(let i = 0; i < 9; i++){
+            for(let j = 0; j < 9; j++){
+                if(this.grid[i][j] != otherGrid.grid[i][j]) return false;
+            }
+        }
+        return true;
+    }
 }
