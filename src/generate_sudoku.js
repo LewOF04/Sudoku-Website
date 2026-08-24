@@ -72,6 +72,7 @@ function randomizeArray(array){
 }
 
 export function generateSudoku(clueNum){
+    console.log("Clue Number " + clueNum.toString());
     const grid = new grid9x9();
 
     let idx = [0, 3, 6];

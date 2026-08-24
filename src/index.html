@@ -4,20 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sudoku</title>
+    <title>Lightblue Sudoku</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
-    <h1>Sudoku</h1>
+    <center><h1>Sudoku</h1></center>
 
     <div id="sudoku-grid"></div>
 
-    <button id="new-game">New Game</button>
-
     <script type="module" src="app.js"></script>
+
+    <div class ="buttons">
+        <button id="new-game">New Game</button>
+    
+        <div class="difficulty-selection">
+
+            <label for="difficulty">Difficulty:</label>
+
+            <select id="difficulty">
+                <option value="beginner">Beginner</option>
+                <option value="easy">Easy</option>
+                <option value="medium" selected>Medium</option>
+                <option value="hard">Hard</option>
+                <option value="expert">Expert</option>
+            </select>
+
+        </div>
+    </div>
 
 </body>
 </html>

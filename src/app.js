@@ -2,9 +2,20 @@ import {generateSudoku} from "../src/generate_sudoku.js";
 
 const gridElement = document.getElementById("sudoku-grid");
 const newGameButton = document.getElementById("new-game");
+const difficultySelect = document.getElementById("difficulty");
 
 function startGame() {
-    const puzzle = generateSudoku(30);
+    let difficulty = difficultySelect.value;
+    console.log("Difficult Value = "+ difficulty);
+    let clueNum = -1;
+    switch(difficulty){
+        case "expert" : clueNum = 20; break;
+        case "hard" : clueNum = 27; break;
+        case "medium" : clueNum = 35; break;
+        case "easy" : clueNum = 40; break;
+        default : clueNum = 50;
+    }
+    const puzzle = generateSudoku(clueNum);
 
     displayGrid(puzzle.startGrid);
 }
