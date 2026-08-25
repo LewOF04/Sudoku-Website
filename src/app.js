@@ -60,6 +60,10 @@ function displayGrid(grid) {
                 }
             });
 
+            cell.addEventListener("input", () => {
+                if (!/^[1-9]?$/.test(cell.value)) cell.value = "";   
+            });
+
             gridElement.appendChild(cell);
         }
     }
