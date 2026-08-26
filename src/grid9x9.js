@@ -14,17 +14,30 @@ export class grid9x9{
     }
 
     getRow(row){
-        return this.grid[row];
+        let positions = [
+            {row: row, col: 0}, 
+            {row: row, col: 1}, 
+            {row: row, col: 2}, 
+            {row: row, col: 3}, 
+            {row: row, col: 4}, 
+            {row: row, col: 5},
+            {row: row, col: 6}, 
+            {row: row, col: 7}, 
+            {row: row, col: 8}
+        ];
+        return {positions, values: this.grid[row]};
     } 
 
     getColumn(col){
         let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let positions = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 
         for(let i = 0; i < 9; i++){
             tempArr[i] = this.grid[i][col];
+            positions[i] = {row: i, col: col};
         }
 
-        return tempArr;
+        return {positions, values: tempArr};
     }
 
     get3x3Grid(idx){
@@ -34,19 +47,21 @@ export class grid9x9{
         6 | 7 | 8
         */
         let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let positions = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 
-        let col = idx % 3;
-        let row = Math.floor(idx / 3);
+        let col = idx % 3; //the starting column of the section
+        let row = Math.floor(idx / 3); //the starting row of the section
 
         for(let i = 0; i < 3; i++){
-            let rowArr = this.grid[(row * 3) + i];
+            let rowArr = this.grid[(row * 3) + i]; //get all values of the current row
 
             for(let j = 0; j < 3; j++){
-                tempArr[(i * 3) + j] = rowArr[(col * 3) + j];
+                tempArr[(i * 3) + j] = rowArr[(col * 3) + j]; //set the value from the column in the current row
+                positions[(i * 3) + j] = {row: row*3 +i, col: col*3 + j}; //update the grid position for the value
             }
         }
 
-        return tempArr;
+        return {positions, values: tempArr};
     }
 
     getNum(row, col){

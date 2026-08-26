@@ -41,6 +41,10 @@ h1 {
     background: #eee;
 }
 
+.invalid {
+    background-color: #ec8282;
+}
+
 .buttons {
     display: flex;
     justify-content: center;

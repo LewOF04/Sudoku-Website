@@ -9,8 +9,20 @@ let selectedCell = null;
 let currentGrid = null;
 let solutionGrid = null;
 
+const cellReferences = [
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null],
+    [null, null, null, null, null, null, null, null, null]
+];
+
 numpad.addEventListener("click", (event) => {
-    if (event.target.tagName === "BUTTON" && selectedCell !== null) {
+    if (event.target.tagName === "BUTTON" && selectedCell !== 0) {
         if(event.target.textContent === "X") selectedCell.value = "";
         else selectedCell.value = event.target.textContent;
 
@@ -50,6 +62,7 @@ function displayGrid(grid) {
             const value = grid.grid[row][col];
             cell.dataset.row = row;
             cell.dataset.col = col;
+            cellReferences[row][col] = cell;
 
             cell.dataset.previousValue = 0;
 
@@ -100,7 +113,68 @@ function updateGrid(cell){
 }
 
 function checkValidity(cell){
+    console.log("Validity Check");
+    let rowInfo = currentGrid.getRow(cell.dataset.row);
+    let columnInfo = currentGrid.getColumn(cell.dataset.col);
 
+    //let gridNum = cell.dataset.col + (3 * cell.dataset.row);
+    let gridNum = Math.floor(cell.dataset.row / 3) * 3 + Math.floor(cell.dataset.col / 3);
+    console.log("Column Num = "+cell.dataset.col + " Row Num = "+cell.dataset.row + " Grid Num = "+gridNum);
+    let gridInfo = currentGrid.get3x3Grid(gridNum);
+
+    setValidColour(rowInfo.positions, true);
+    setValidColour(columnInfo.positions, true);
+    setValidColour(gridInfo.positions, true);
+
+    let returnVal = true;
+    if(arrayHasDuplicates(rowInfo.values)){
+        console.log("Row has duplicates = "+rowInfo.values.toString());
+        setValidColour(rowInfo.positions, false);
+        returnVal = false;
+    }
+
+    if(arrayHasDuplicates(columnInfo.values)){
+        console.log("Column has duplicates = "+columnInfo.values.toString());
+        setValidColour(columnInfo.positions, false);
+        returnVal = false;
+    } 
+
+    if(arrayHasDuplicates(gridInfo.values)){
+        console.log("Grid has duplicates = "+gridInfo.values.toString());
+        setValidColour(gridInfo.positions, false);
+        returnVal = false;
+    }
+
+    return returnVal;
+}
+
+function setValidColour(positions, isValid){
+    console.log("Setting Valid Colour");
+    let cellToColour = null;
+    if(isValid){
+        console.log("Cell is valid");
+        for(let i = 0; i < positions.length; i++){
+            cellToColour = cellReferences[positions[i].row][positions[i].col];
+            cellToColour.classList.remove("invalid");
+        }
+    } else{
+        console.log("Cell is invalid");
+        for(let i = 0; i < positions.length; i++){
+            cellToColour = cellReferences[positions[i].row][positions[i].col];
+            cellToColour.classList.add("invalid");
+        }
+    }
+}
+
+function arrayHasDuplicates(array){
+    for(let i = 0; i < array.length; i++){
+        for(let j = 0; j < array.length; j++){
+            if(i == j || array[i] == 0 || array[j] == 0) continue;
+            
+            if(array[i] == array[j]) return true;
+        }
+    }
+    return false;
 }
 
 newGameButton.addEventListener("click", startGame);

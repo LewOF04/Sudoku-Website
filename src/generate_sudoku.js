@@ -9,14 +9,14 @@
 import {grid9x9} from "./grid9x9.js";
 
 function isValidMove(grid, row, col, num){
-    let rowArr = grid.getRow(row);
-    let colArr = grid.getColumn(col);
+    let rowArr = grid.getRow(row).values;
+    let colArr = grid.getColumn(col).values;
 
     let rowIdx = Math.floor(row / 3);
     let colIdx = Math.floor(col / 3);
 
     let gridNum = colIdx + (3 * rowIdx);
-    let grid3x3Arr = grid.get3x3Grid(gridNum);
+    let grid3x3Arr = grid.get3x3Grid(gridNum).values;
 
     if(rowArr.includes(num) || colArr.includes(num) || grid3x3Arr.includes(num)) return false;
 
