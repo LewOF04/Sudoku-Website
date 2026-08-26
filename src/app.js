@@ -93,10 +93,10 @@ function displayGrid(grid) {
 
 function updateGrid(cell){
     let value = 0;
-    console.log("Function entered");
     if(cell.value != "") value = parseInt(cell.value);
-    console.log("cell.value = \"\" checked");
-    currentGrid[cell.dataset.row][cell.dataset.col] = value;
+    currentGrid.grid[cell.dataset.row][cell.dataset.col] = value;
+
+    console.log("New Grid:\n"+currentGrid.toString());
 }
 
 function checkValidity(cell){
