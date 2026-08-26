@@ -22,12 +22,12 @@ const cellReferences = [
 ];
 
 numpad.addEventListener("click", (event) => {
-    if (event.target.tagName === "BUTTON" && selectedCell !== 0) {
+    if (event.target.tagName === "BUTTON" && selectedCell !== null) {
         if(event.target.textContent === "X") selectedCell.value = "";
         else selectedCell.value = event.target.textContent;
 
         updateGrid(selectedCell);
-        checkPlacement(selectedCell);
+        checkValidity(selectedCell);
     }
 });
 
