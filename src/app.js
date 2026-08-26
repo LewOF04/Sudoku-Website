@@ -13,6 +13,9 @@ numpad.addEventListener("click", (event) => {
     if (event.target.tagName === "BUTTON" && selectedCell !== null) {
         if(event.target.textContent === "X") selectedCell.value = "";
         else selectedCell.value = event.target.textContent;
+
+        updateGrid(selectedCell);
+        checkPlacement(selectedCell);
     }
 });
 
@@ -43,9 +46,12 @@ function displayGrid(grid) {
             const cell = document.createElement("input");
 
             cell.type = "text";
-            cell.maxLength = 1;
 
             const value = grid.grid[row][col];
+            cell.dataset.row = row;
+            cell.dataset.col = col;
+
+            cell.dataset.previousValue = 0;
 
             if (value !== 0) {
                 cell.value = value;
@@ -60,13 +66,41 @@ function displayGrid(grid) {
                 }
             });
 
-            cell.addEventListener("input", () => {
-                if (!/^[1-9]?$/.test(cell.value)) cell.value = "";   
+            cell.addEventListener("input", (event) => {
+                const input = event.target;
+                
+                //limit to only the latest character
+                if (input.value.length > 1) {
+                    input.value = input.value.slice(-1);
+                }
+
+                // Only allow "" or 1-9
+                if (!/^[1-9]?$/.test(input.value)) {
+                    if(input.dataset.previousValue == 0) input.value = ""; //set to nothing
+                    else input.value = input.dataset.previousValue; //retain the previous number
+                }
+                
+                input.dataset.previousValue = input.value;
+
+                updateGrid(input);
+                checkValidity(input);
             });
 
             gridElement.appendChild(cell);
         }
     }
+}
+
+function updateGrid(cell){
+    let value = 0;
+    console.log("Function entered");
+    if(cell.value != "") value = parseInt(cell.value);
+    console.log("cell.value = \"\" checked");
+    currentGrid[cell.dataset.row][cell.dataset.col] = value;
+}
+
+function checkValidity(cell){
+
 }
 
 newGameButton.addEventListener("click", startGame);
