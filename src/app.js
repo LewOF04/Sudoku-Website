@@ -1,4 +1,5 @@
 import {generateSudoku} from "../src/generate_sudoku.js";
+import {toggleTimer, resetTimer, timerRunning} from "./timer.js";
 
 const gridElement = document.getElementById("sudoku-grid");
 const newGameButton = document.getElementById("new-game");
@@ -8,6 +9,12 @@ const numpad = document.getElementById("numpad");
 let selectedCell = null;
 let currentGrid = null;
 let solutionGrid = null;
+
+const timerDisplay = document.getElementById("timer-display");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const playIcon = document.getElementById("playIcon");
+const pauseIcon = document.getElementById("pauseIcon");
+let gameStarted = false;
 
 const cellReferences = [
     [null, null, null, null, null, null, null, null, null],
@@ -31,7 +38,39 @@ numpad.addEventListener("click", (event) => {
     }
 });
 
-function startGame() {
+playPauseBtn.addEventListener("click",  () => {
+    const timerOn = toggleTimer(timerDisplay);
+    if(timerOn){
+        gameStarted = true;
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+
+        gridElement.classList.remove("paused");
+
+    } else{
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+
+        if(gameStarted) gridElement.classList.add("paused");
+    }
+});
+
+newGameButton.addEventListener("click", loadGame);
+
+gridElement.addEventListener("click", () => {
+    if (!gameStarted) {
+        toggleTimer(timerDisplay);
+
+        gameStarted = true;
+
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+
+        gridElement.classList.remove("paused");
+    }
+});
+
+function loadGame() {
     let difficulty = difficultySelect.value;
     let clueNum = -1;
 
@@ -47,6 +86,13 @@ function startGame() {
     solutionGrid = puzzle.solution;
 
     displayGrid(puzzle.startGrid);
+
+    playIcon.classList.remove("hidden");
+    pauseIcon.classList.add("hidden");
+    gameStarted = false;
+    gridElement.classList.remove("paused");
+
+    resetTimer(timerDisplay);
 }
 
 function displayGrid(grid) {
@@ -113,13 +159,11 @@ function updateGrid(cell){
 }
 
 function checkValidity(cell){
-    console.log("Validity Check");
     let rowInfo = currentGrid.getRow(cell.dataset.row);
     let columnInfo = currentGrid.getColumn(cell.dataset.col);
 
     //let gridNum = cell.dataset.col + (3 * cell.dataset.row);
     let gridNum = Math.floor(cell.dataset.row / 3) * 3 + Math.floor(cell.dataset.col / 3);
-    console.log("Column Num = "+cell.dataset.col + " Row Num = "+cell.dataset.row + " Grid Num = "+gridNum);
     let gridInfo = currentGrid.get3x3Grid(gridNum);
 
     setValidColour(rowInfo.positions, true);
@@ -128,19 +172,16 @@ function checkValidity(cell){
 
     let returnVal = true;
     if(arrayHasDuplicates(rowInfo.values)){
-        console.log("Row has duplicates = "+rowInfo.values.toString());
         setValidColour(rowInfo.positions, false);
         returnVal = false;
     }
 
     if(arrayHasDuplicates(columnInfo.values)){
-        console.log("Column has duplicates = "+columnInfo.values.toString());
         setValidColour(columnInfo.positions, false);
         returnVal = false;
     } 
 
     if(arrayHasDuplicates(gridInfo.values)){
-        console.log("Grid has duplicates = "+gridInfo.values.toString());
         setValidColour(gridInfo.positions, false);
         returnVal = false;
     }
@@ -149,16 +190,13 @@ function checkValidity(cell){
 }
 
 function setValidColour(positions, isValid){
-    console.log("Setting Valid Colour");
     let cellToColour = null;
     if(isValid){
-        console.log("Cell is valid");
         for(let i = 0; i < positions.length; i++){
             cellToColour = cellReferences[positions[i].row][positions[i].col];
             cellToColour.classList.remove("invalid");
         }
     } else{
-        console.log("Cell is invalid");
         for(let i = 0; i < positions.length; i++){
             cellToColour = cellReferences[positions[i].row][positions[i].col];
             cellToColour.classList.add("invalid");
@@ -177,6 +215,4 @@ function arrayHasDuplicates(array){
     return false;
 }
 
-newGameButton.addEventListener("click", startGame);
-
-startGame();
+loadGame();

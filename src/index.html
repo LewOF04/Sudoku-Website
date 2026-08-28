@@ -12,7 +12,24 @@
 <body>
     <center><h1>Sudoku</h1></center>
 
-    <div id="sudoku-grid"></div>
+    <div class = "game-container">
+        <div class="timer-container">
+            <button id="playPauseBtn" aria-label="Start timer">
+                <svg id="playIcon" class="timer-icon" viewBox="0 0 24 24">
+                    <polygon points="8,5 19,12 8,19"/>
+                </svg>
+
+                <svg id="pauseIcon" class="timer-icon hidden" viewBox="0 0 24 24">
+                    <rect x="6" y="5" width="4" height="14"/>
+                    <rect x="14" y="5" width="4" height="14"/>
+                </svg>
+            </button>
+
+            <div id="timer-display">00:00:00</div>
+        </div>
+
+        <div id="sudoku-grid"></div>
+    </div>
 
     <script type="module" src="app.js"></script>
 
