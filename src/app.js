@@ -5,6 +5,7 @@ const gridElement = document.getElementById("sudoku-grid");
 const newGameButton = document.getElementById("new-game");
 const difficultySelect = document.getElementById("difficulty");
 const numpad = document.getElementById("numpad");
+const message = document.getElementById("dynamic-jump");
 
 let selectedCell = null;
 let currentGrid = null;
@@ -47,10 +48,12 @@ playPauseBtn.addEventListener("click",  () => {
 
         gridElement.classList.remove("paused");
         numpad.classList.remove("paused");
+        message.classList.add("paused");
 
     } else{
         playIcon.classList.remove("hidden");
         pauseIcon.classList.add("hidden");
+        message.classList.remove("paused");
 
         if(gameStarted) {
             gridElement.classList.add("paused");
@@ -72,6 +75,7 @@ gridElement.addEventListener("click", () => {
 
         gridElement.classList.remove("paused");
         numpad.classList.remove("paused");
+        message.classList.add("paused");
     }
 });
 
@@ -96,6 +100,7 @@ function loadGame() {
     pauseIcon.classList.add("hidden");
     gameStarted = false;
     gridElement.classList.remove("paused");
+    message.classList.remove("paused");
 
     resetTimer(timerDisplay);
 }

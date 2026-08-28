@@ -18,6 +18,46 @@ body {
     pointer-events: none;
 }
 
+#msg-board {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#dynamic-jump {
+  font-size: 18px;
+}
+
+#dynamic-jump.paused span {
+    animation: none;
+    transform: translateY(0);
+}
+
+#dynamic-jump span {
+    display: inline-block;
+
+    animation: jump 4s infinite ease-in-out;
+    animation-delay: calc(var(--char-index) * 0.06s);
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0);
+    }
+
+    6% {
+        transform: translateY(-15px);
+    }
+
+    12% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
 .game-container {
     width: fit-content;
     margin: 10px auto;

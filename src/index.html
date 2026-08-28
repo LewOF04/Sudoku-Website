@@ -12,6 +12,27 @@
 <body>
     <center><h1>Sudoku</h1></center>
 
+    <div id = "msg-board">
+        <div id = "dynamic-jump">Today's Message: Happy 2 Year Anniversary 💜</div>
+
+        <script>
+            const textContainer = document.getElementById('dynamic-jump');
+            const text = textContainer.innerText;
+            
+            textContainer.innerText = '';
+
+            [...text].forEach((char, index) => {
+                const span = document.createElement('span');
+                
+                span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                
+                span.style.setProperty('--char-index', index);
+                
+                textContainer.appendChild(span);
+            });
+        </script>
+    </div>
+
     <div class = "game-container">
         <div class="timer-container">
             <button id="playPauseBtn" aria-label="Start timer">
