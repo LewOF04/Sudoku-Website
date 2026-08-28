@@ -46,12 +46,16 @@ playPauseBtn.addEventListener("click",  () => {
         pauseIcon.classList.remove("hidden");
 
         gridElement.classList.remove("paused");
+        numpad.classList.remove("paused");
 
     } else{
         playIcon.classList.remove("hidden");
         pauseIcon.classList.add("hidden");
 
-        if(gameStarted) gridElement.classList.add("paused");
+        if(gameStarted) {
+            gridElement.classList.add("paused");
+            numpad.classList.add("paused");
+        }
     }
 });
 
@@ -67,6 +71,7 @@ gridElement.addEventListener("click", () => {
         pauseIcon.classList.remove("hidden");
 
         gridElement.classList.remove("paused");
+        numpad.classList.remove("paused");
     }
 });
 

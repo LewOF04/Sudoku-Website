@@ -102,6 +102,11 @@ h1 {
     cursor: pointer;
 }
 
+#numpad.paused{
+    opacity: 0.4;
+    pointer-events: none;
+}
+
 #playPauseBtn {
     background: none;
     border: none;
