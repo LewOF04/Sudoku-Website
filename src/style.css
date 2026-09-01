@@ -171,3 +171,28 @@ h1 {
 #playPauseBtn:hover {
     opacity: 0.7;
 }
+
+@keyframes blueFlash {
+    0% {
+        background-color: white;
+    }
+
+    15% {
+        background-color: #8fdcff;
+        box-shadow: inset 0 0 18px #dff6ff;
+    }
+
+    35% {
+        background-color: #bcecff;
+        box-shadow: inset 0 0 10px #eafaff;
+    }
+
+    100% {
+        background-color: white;
+        box-shadow: inset 0 0 0 transparent;
+    }
+}
+
+.pulse {
+    animation: blueFlash 0.35s ease-out;
+}

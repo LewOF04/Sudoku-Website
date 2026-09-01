@@ -95,6 +95,7 @@ function loadGame() {
     solutionGrid = puzzle.solution;
 
     displayGrid(puzzle.startGrid);
+    console.log(solutionGrid.toString());
 
     playIcon.classList.remove("hidden");
     pauseIcon.classList.add("hidden");
@@ -152,7 +153,9 @@ function displayGrid(grid) {
                 input.dataset.previousValue = input.value;
 
                 updateGrid(input);
-                checkValidity(input);
+                if(checkValidity(input)){
+                    checkCompletion(input);
+                }
             });
 
             gridElement.appendChild(cell);
@@ -172,7 +175,6 @@ function checkValidity(cell){
     let rowInfo = currentGrid.getRow(cell.dataset.row);
     let columnInfo = currentGrid.getColumn(cell.dataset.col);
 
-    //let gridNum = cell.dataset.col + (3 * cell.dataset.row);
     let gridNum = Math.floor(cell.dataset.row / 3) * 3 + Math.floor(cell.dataset.col / 3);
     let gridInfo = currentGrid.get3x3Grid(gridNum);
 
@@ -199,6 +201,24 @@ function checkValidity(cell){
     return returnVal;
 }
 
+function checkCompletion(cell){
+    let rowInfo = currentGrid.getRow(cell.dataset.row);
+    let columnInfo = currentGrid.getColumn(cell.dataset.col);
+
+    let gridNum = Math.floor(cell.dataset.row / 3) * 3 + Math.floor(cell.dataset.col / 3);
+    let gridInfo = currentGrid.get3x3Grid(gridNum);
+
+    if(arrayIsComplete(rowInfo.values)){
+        flashCells(cell, rowInfo.positions, "row");
+    }
+    if(arrayIsComplete(columnInfo.values)){
+        flashCells(cell, columnInfo.positions, "column");
+    }
+    if(arrayIsComplete(gridInfo.values)){
+        flashCells(cell, gridInfo.positions, "grid");
+    }
+}
+
 function setValidColour(positions, isValid){
     let cellToColour = null;
     if(isValid){
@@ -223,6 +243,56 @@ function arrayHasDuplicates(array){
         }
     }
     return false;
+}
+
+function arrayIsComplete(array){
+    let validNum = 0;
+    for(let i = 0; i < array.length; i++){
+        if(array[i] != 0) validNum++;
+    }
+
+    if(validNum == 9) return true;
+
+    return false;
+}
+
+function flashCells(startCell, allCells, type) {
+    const startRow = Number(startCell.dataset.row);
+    const startCol = Number(startCell.dataset.col);
+
+    for (let i = 0; i < allCells.length; i++) {
+        const row = allCells[i].row;
+        const col = allCells[i].col;
+
+        let distance = 0;
+
+        if (type === "row") {
+            distance = Math.abs(col - startCol);
+        }
+        else if (type === "column") {
+            distance = Math.abs(row - startRow);
+        }
+        else if (type === "grid") {
+            distance = 0;
+        }
+
+        const cell = cellReferences[row][col];
+
+        pulseCell(cell, distance);
+    }
+}
+
+function pulseCell(cell, distance){
+    const delay = distance * 100;
+
+    setTimeout(() => {
+        cell.classList.add("pulse");
+
+        cell.addEventListener("animationend", () => {
+            cell.classList.remove("pulse");
+        }, { once: true });
+
+    }, delay);
 }
 
 loadGame();
