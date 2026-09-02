@@ -17,6 +17,8 @@ const playIcon = document.getElementById("playIcon");
 const pauseIcon = document.getElementById("pauseIcon");
 let gameStarted = false;
 
+let errors = 0;
+
 const cellReferences = [
     [null, null, null, null, null, null, null, null, null],
     [null, null, null, null, null, null, null, null, null],
@@ -81,15 +83,18 @@ gridElement.addEventListener("click", () => {
 
 function loadGame() {
     let difficulty = difficultySelect.value;
-    let clueNum = -1;
+    let min = -1;
+    let max = -1;
 
     switch(difficulty){
-        case "expert" : clueNum = 20; break;
-        case "hard" : clueNum = 27; break;
-        case "medium" : clueNum = 35; break;
-        case "easy" : clueNum = 40; break;
-        default : clueNum = 50;
+        case "impossible" : max = 21; min = 17; break;
+        case "expert" : max = 25; min = 22; break;
+        case "hard" : max = 29; min = 26; break;
+        case "medium" : max = 35; min = 30; break;
+        case "easy" : max = 44; min = 36; break;
+        default : max = 50; min = 45;
     }
+    let clueNum = Math.floor(Math.random() * (max - min) + min);
     const puzzle = generateSudoku(clueNum);
     currentGrid = puzzle.startGrid;
     solutionGrid = puzzle.solution;
