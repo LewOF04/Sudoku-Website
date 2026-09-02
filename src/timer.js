@@ -3,6 +3,11 @@ let elapsedSeconds = 0;
 let timerInterval = null;
 let isRunning = false;
 
+/**
+ * Format given time in seconds into hours, minutes and seconds
+ * @param {*} seconds 
+ * @returns 
+ */
 function formatTime(seconds) {
     let hrs = Math.floor(seconds / 3600);
     let mins = Math.floor((seconds % 3600) / 60);
@@ -14,6 +19,10 @@ function formatTime(seconds) {
     );
 }
 
+/**
+ * Reset the timer to 00:00:00
+ * @param {*} display 
+ */
 export function resetTimer(display){
     clearInterval(timerInterval);
     timerInterval = null;
@@ -22,6 +31,11 @@ export function resetTimer(display){
     isRunning = false;
 }
 
+/**
+ * Toggle the timer between playing and not playing
+ * @param {*} display 
+ * @returns 
+ */
 export function toggleTimer(display) {
     if (isRunning) {
         stopTimer();
@@ -34,6 +48,11 @@ export function toggleTimer(display) {
     return true;
 }
 
+/**
+ * Start the timer upon toggle
+ * @param {*} display 
+ * @returns 
+ */
 function startTimer(display){
     if (timerInterval) return;
     isRunning = true;
@@ -45,12 +64,19 @@ function startTimer(display){
     }, 1000);
 }
 
+/**
+ * Stop the timer upon toggle
+ */
 function stopTimer(){
     clearInterval(timerInterval);
     timerInterval = null;
     isRunning = false;
 }
 
+/**
+ * Check to whether or not the timer is running
+ * @returns 
+ */
 export function timerRunning(){
     return isRunning;
 }

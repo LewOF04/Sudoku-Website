@@ -31,16 +31,24 @@ const cellReferences = [
     [null, null, null, null, null, null, null, null, null]
 ];
 
+/**
+ * Controls clicking of number pad
+ */
 numpad.addEventListener("click", (event) => {
     if (event.target.tagName === "BUTTON" && selectedCell !== null) {
-        if(event.target.textContent === "X") selectedCell.value = "";
-        else selectedCell.value = event.target.textContent;
+        if(event.target.textContent === "X") selectedCell.value = ""; //set value to null if X
+        else selectedCell.value = event.target.textContent; //set new cell value
 
-        updateGrid(selectedCell);
-        checkValidity(selectedCell);
+        updateGrid(selectedCell); //update backend grid
+        if(checkValidity(input)){ //check if placement is valid
+            checkCompletion(input); //check if placement completes grid sub section
+        }
     }
 });
 
+/**
+ * Controls start and stop of timer
+ */
 playPauseBtn.addEventListener("click",  () => {
     const timerOn = toggleTimer(timerDisplay);
     if(timerOn){
@@ -64,8 +72,12 @@ playPauseBtn.addEventListener("click",  () => {
     }
 });
 
-newGameButton.addEventListener("click", loadGame);
+newGameButton.addEventListener("click", loadGame); //performs load game upon new game selection
 
+/**
+ * Listener for when the grid is selected initially.
+ * Controls the timer from the point of selection
+ */
 gridElement.addEventListener("click", () => {
     if (!gameStarted) {
         toggleTimer(timerDisplay);
@@ -81,6 +93,9 @@ gridElement.addEventListener("click", () => {
     }
 });
 
+/**
+ * Reset sudoku grid based on player selection
+ */
 function loadGame() {
     let difficulty = difficultySelect.value;
     let min = -1;
@@ -105,12 +120,17 @@ function loadGame() {
     playIcon.classList.remove("hidden");
     pauseIcon.classList.add("hidden");
     gameStarted = false;
+    errors = 0;
     gridElement.classList.remove("paused");
     message.classList.remove("paused");
 
     resetTimer(timerDisplay);
 }
 
+/**
+ * Given a grid, display this grid onto the website and establish cell listeners
+ * @param {*} grid 
+ */
 function displayGrid(grid) {
     gridElement.innerHTML = "";
 
@@ -141,6 +161,7 @@ function displayGrid(grid) {
                 }
             });
 
+            //event upon cell input
             cell.addEventListener("input", (event) => {
                 const input = event.target;
                 
@@ -157,9 +178,9 @@ function displayGrid(grid) {
                 
                 input.dataset.previousValue = input.value;
 
-                updateGrid(input);
-                if(checkValidity(input)){
-                    checkCompletion(input);
+                updateGrid(input); //update backend grid
+                if(checkValidity(input)){ //check if placement is valid
+                    checkCompletion(input); //check if placement completes grid sub section
                 }
             });
 
@@ -168,6 +189,10 @@ function displayGrid(grid) {
     }
 }
 
+/**
+ * After placement, update the backend grid to reflect the change
+ * @param {} cell 
+ */
 function updateGrid(cell){
     let value = 0;
     if(cell.value != "") value = parseInt(cell.value);
@@ -176,6 +201,12 @@ function updateGrid(cell){
     console.log("New Grid:\n"+currentGrid.toString());
 }
 
+/**
+ * Ater a new cell input, check whether that cell placement was valid
+ * Increments error counter upon invalid placement
+ * @param {} cell 
+ * @returns - false if invalid, true if valid
+ */
 function checkValidity(cell){
     let rowInfo = currentGrid.getRow(cell.dataset.row);
     let columnInfo = currentGrid.getColumn(cell.dataset.col);
@@ -203,9 +234,17 @@ function checkValidity(cell){
         returnVal = false;
     }
 
+    if(!returnVal){
+        errors++;
+    }
     return returnVal;
 }
 
+/**
+ * Check after cell input whether the row, column or 3x3 grid has been completed.
+ * If so, play completion animation.
+ * @param {*} cell - the cell which has been added
+ */
 function checkCompletion(cell){
     let rowInfo = currentGrid.getRow(cell.dataset.row);
     let columnInfo = currentGrid.getColumn(cell.dataset.col);
@@ -224,6 +263,11 @@ function checkCompletion(cell){
     }
 }
 
+/**
+ * Given a set of cells and whether those cells are validly filled, change the colours between red and default white.
+ * @param {*} positions 
+ * @param {*} isValid 
+ */
 function setValidColour(positions, isValid){
     let cellToColour = null;
     if(isValid){
@@ -239,6 +283,11 @@ function setValidColour(positions, isValid){
     }
 }
 
+/**
+ * Check whether a given array has duplicates or not
+ * @param {*} array - the array to check
+ * @returns - true if has duplicates, false if not
+ */
 function arrayHasDuplicates(array){
     for(let i = 0; i < array.length; i++){
         for(let j = 0; j < array.length; j++){
@@ -250,6 +299,11 @@ function arrayHasDuplicates(array){
     return false;
 }
 
+/**
+ * Check whether a given array has exactly 9 non zero values
+ * @param {*} array 
+ * @returns - true if has 9 non-zero values, false if else
+ */
 function arrayIsComplete(array){
     let validNum = 0;
     for(let i = 0; i < array.length; i++){
@@ -261,6 +315,13 @@ function arrayIsComplete(array){
     return false;
 }
 
+/**
+ * Given a start cell and a set of neighbouring cells and what type of area has been completed,
+ * flash the cells in sequence to show completion.
+ * @param {*} startCell 
+ * @param {*} allCells 
+ * @param {*} type 
+ */
 function flashCells(startCell, allCells, type) {
     const startRow = Number(startCell.dataset.row);
     const startCol = Number(startCell.dataset.col);
@@ -287,6 +348,11 @@ function flashCells(startCell, allCells, type) {
     }
 }
 
+/**
+ * Pulse cell with delay based on distance from starting cell point
+ * @param {*} cell 
+ * @param {*} distance 
+ */
 function pulseCell(cell, distance){
     const delay = distance * 100;
 

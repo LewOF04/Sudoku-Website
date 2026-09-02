@@ -13,6 +13,11 @@ export class grid9x9{
         ];
     }
 
+    /**
+     * given a row index, return the values of the entire row
+     * @param {*} row - row index (0-8)
+     * @returns array of values in the row (in order from column 0 - 8)
+     */
     getRow(row){
         let positions = [
             {row: row, col: 0}, 
@@ -28,6 +33,11 @@ export class grid9x9{
         return {positions, values: this.grid[row]};
     } 
 
+    /**
+     * given a column index, return the values of the entire column
+     * @param {*} col - column index (0-8)
+     * @returns array of values in the column (in order from row 0 - 8)
+     */
     getColumn(col){
         let tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         let positions = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
@@ -40,6 +50,11 @@ export class grid9x9{
         return {positions, values: tempArr};
     }
 
+    /**
+     * given a grid index, return the values of the entire grid
+     * @param {*} idx - grid index (0-8)
+     * @returns array of values in the 3x3 grid (in order from top left to bottom right)
+     */
     get3x3Grid(idx){
         /*
         0 | 1 | 2
@@ -64,10 +79,20 @@ export class grid9x9{
         return {positions, values: tempArr};
     }
 
+    /**
+     * Get the number stored at specific index
+     * @param {} row row index
+     * @param {*} col column index
+     * @returns the number stored in index
+     */
     getNum(row, col){
         return this.grid[row][col];
     }
 
+    /**
+     * Produce a copy of the grid unlinked from the original
+     * @returns new grid9x9 object
+     */
     copy(){
         let newGrid = [];
 
@@ -85,6 +110,10 @@ export class grid9x9{
         return newObj;
     }
 
+    /**
+     * Create a string version of the grid
+     * @returns string representation of the grid values
+     */
     toString(){
         let string = "----".repeat(9) + "\n";
 
@@ -98,6 +127,11 @@ export class grid9x9{
         return string;
     }
 
+    /**
+     * Check whether two grids store the exact same values
+     * @param {*} otherGrid - the grid being compared to this object
+     * @returns true if the same, false if different
+     */
     equal(otherGrid){
         for(let i = 0; i < 9; i++){
             for(let j = 0; j < 9; j++){

@@ -8,6 +8,14 @@
 
 import {grid9x9} from "./grid9x9.js";
 
+/**
+ * Check whether a given number placement is valid given the row, column and grid
+ * @param {*} grid 
+ * @param {*} row 
+ * @param {*} col 
+ * @param {*} num 
+ * @returns true if valid, false if invalid
+ */
 function isValidMove(grid, row, col, num){
     let rowArr = grid.getRow(row).values;
     let colArr = grid.getColumn(col).values;
@@ -23,6 +31,11 @@ function isValidMove(grid, row, col, num){
     return true;
 }
 
+/**
+ * Find any area in the grid which is currently not filled by a value
+ * @param {*} grid the grid which we check for empty spaces
+ * @returns - the coordinates of the space in a 2 element array (or null if no spaces exist)
+ */
 function findEmpty(grid){
     for(let i = 0; i < 9; i++){
         for(let j = 0; j < 9; j++){
@@ -32,6 +45,11 @@ function findEmpty(grid){
     return null;
 }
 
+/**
+ * Given a grid, fill the grid with numbers until completed
+ * @param {*} grid 
+ * @returns - true if sudoku solved, false if not
+ */
 function solveSudoku(grid){
     let emptyLoc = findEmpty(grid);
     if(emptyLoc == null) return true;
@@ -51,6 +69,11 @@ function solveSudoku(grid){
     return false;
 }
 
+/**
+ * Given an array of numbers, return the array with the same numbers in random order
+ * @param {*} array - original array
+ * @returns - randomised array
+ */
 function randomizeArray(array){
     let arrayTrack = [];
     let newArray = [];
@@ -71,6 +94,11 @@ function randomizeArray(array){
     return newArray;
 }
 
+/**
+ * Generate a complete sudoku grid and a starting point grid with set numbers
+ * @param {*} clueNum - the number of clues we want in the sudoku
+ * @returns {startGrid, solution} - the starting grid and the completed solution grid
+ */
 export function generateSudoku(clueNum){
     console.log("Clue Number " + clueNum.toString());
     const grid = new grid9x9();
