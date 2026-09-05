@@ -12,7 +12,7 @@
 <body>
 
     <header class="site-header">
-        
+
         <div class="header-content">
             <h1>Lightblue Sudoku</h1>
 
@@ -20,6 +20,23 @@
                 <div id="dynamic-jump">
                     Today's Message: Happy 2 Year Anniversary 💜
                 </div>
+
+                <script>
+                    const textContainer = document.getElementById('dynamic-jump');
+                    const text = textContainer.innerText;
+                    
+                    textContainer.innerText = '';
+
+                    [...text].forEach((char, index) => {
+                        const span = document.createElement('span');
+                        
+                        span.innerHTML = char === ' ' ? '&nbsp;' : char;
+                        
+                        span.style.setProperty('--char-index', index);
+                        
+                        textContainer.appendChild(span);
+                    });
+                </script>
             </div>
         </div>
 
@@ -30,6 +47,10 @@
 
         <a href="src/sudoku.html" class="menu-option">
             Play Sudoku
+        </a>
+
+        <a href="src/data.html" class="menu-option">
+            Upload / Download Data
         </a>
     </main>
 
