@@ -65,6 +65,20 @@ function startTimer(display){
 }
 
 /**
+ * Gets the current time on the timer
+ * @returns {hours, minutes, seconds}
+ */
+export function getTime(){
+    let totalSecs = elapsedSeconds;
+
+    let hrs = Math.floor(totalSecs / 3600);
+    let mins = Math.floor((totalSecs % 3600) / 60);
+    let secs = totalSecs % 60;
+
+    return {hours: hrs, minutes: mins, seconds: secs};
+}
+
+/**
  * Stop the timer upon toggle
  */
 function stopTimer(){
