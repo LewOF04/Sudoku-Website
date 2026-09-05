@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { grid9x9 } from "../src/grid9x9.js";
+import { grid9x9 } from "../src/js/grid9x9.js";
 
 describe("grid9x9", () => {
 

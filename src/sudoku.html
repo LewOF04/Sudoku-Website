@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Play Sudoku | Lightblue Sudoku</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/sudoku.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+
+        <button id="menu-button" class="menu-button">
+            ☰
+        </button>
+
+        <div class="header-content">
+            <h1>Lightblue Sudoku</h1>
+
+            <div id="msg-board">
+                <div id="dynamic-jump">
+                    Today's Message: Happy 2 Year Anniversary 💜
+                </div>
+            </div>
+        </div>
+
+    </header>
+
+
+    <aside id="side-nav" class="side-nav">
+
+        <button id="close-nav">×</button>
+
+        <nav>
+            <a href="./index.html">Home</a>
+            <a href="./sudoku.html" class="active">Play Sudoku</a>
+        </nav>
+
+    </aside>
+
+    <div id="nav-overlay" class="nav-overlay"></div>
+
+    <main class="page-content">
+
+        <div id="game-complete-overlay" class="hidden">
+            <div id="game-complete-box">
+
+                <button id="close-popup" class="close-popup">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M6 6L18 18M18 6L6 18"/>
+                    </svg>
+                </button>
+
+                <h2>Sudoku Complete!</h2>
+
+                <div id="popup-content">
+                    <p>Difficulty: <span id="final-difficulty"></span></p>
+                    <p>Time: <span id="final-time"></span></p>
+                    <p>Errors: <span id="final-errors"></span></p>
+                    <p>Score: <span id="final-score"></span></p>
+                </div>
+
+                <button id="new-game-popup">
+                    New Game
+                </button>
+
+            </div>
+        </div>
+
+
+        <div class="game-container">
+
+            <div class="timer-container">
+
+                <button id="playPauseBtn">
+
+                    <svg id="playIcon" class="timer-icon" viewBox="0 0 24 24">
+                        <polygon points="8,5 19,12 8,19"/>
+                    </svg>
+
+                    <svg id="pauseIcon" class="timer-icon hidden" viewBox="0 0 24 24">
+                        <rect x="6" y="5" width="4" height="14"/>
+                        <rect x="14" y="5" width="4" height="14"/>
+                    </svg>
+
+                </button>
+
+                <div id="timer-display">
+                    00:00:00
+                </div>
+
+            </div>
+
+            <div id="sudoku-grid"></div>
+
+        </div>
+
+
+        <div id="numpad">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>X</button>
+        </div>
+
+
+        <div class="buttons">
+
+            <button id="new-game">
+                New Game
+            </button>
+
+            <div class="difficulty-selection">
+
+                <label for="difficulty">
+                    Difficulty:
+                </label>
+
+                <select id="difficulty">
+                    <option value="beginner">Beginner</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                    <option value="expert">Expert</option>
+                    <option value="impossible">Impossible</option>
+                </select>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <footer class="site-footer">
+        Lightblue Sudoku © 2026
+    </footer>
+
+
+    <script type="module" src="./js/app.js"></script>
+    <script src="./js/navigation.js"></script>
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-import {generateSudoku} from "../src/generate_sudoku.js";
+import {generateSudoku} from "./generate_sudoku.js";
 import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
 import {getScore} from "./ranking_system.js";
 

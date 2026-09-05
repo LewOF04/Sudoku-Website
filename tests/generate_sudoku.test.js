@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
-import { generateSudoku } from "../src/generate_sudoku.js";
-import { grid9x9 } from "../src/grid9x9.js";
+import { generateSudoku } from "../src/js/generate_sudoku.js";
+import { grid9x9 } from "../src/js/grid9x9.js";
 
 function containsOneToNine(array) {
     const sorted = [...array].sort();
