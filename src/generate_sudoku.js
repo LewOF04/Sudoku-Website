@@ -61,9 +61,9 @@ function solveSudoku(grid){
     for(let i = 0; i < numbers.length; i++){
         num = numbers[i];
         if(isValidMove(grid, emptyLoc[0], emptyLoc[1], num)){
-            grid.grid[emptyLoc[0]][emptyLoc[1]] = num;
+            grid.updateGrid(emptyLoc[0], emptyLoc[1], num);
             if(solveSudoku(grid)) return true;
-            grid.grid[emptyLoc[0]][emptyLoc[1]] = 0;
+            grid.updateGrid(emptyLoc[0], emptyLoc[1], 0);
         }
     }
     return false;
@@ -109,7 +109,7 @@ export function generateSudoku(clueNum){
 
         for(let j = 0; j < 3; j++){
             for(let k = 0; k < 3; k++){
-                grid.grid[idx[i] + j][idx[i] + k] = numbers.pop();
+                grid.updateGrid(idx[i] + j, idx[i] + k, numbers.pop());
             }
         }
     }
@@ -134,7 +134,7 @@ export function generateSudoku(clueNum){
         let iIdx = parseInt(cellID.substring(0,1));
         let jIdx = parseInt(cellID.substring(1));
 
-        startGrid.grid[iIdx][jIdx] = 0;
+        startGrid.updateGrid(iIdx, jIdx, 0);
     }
 
     return {startGrid, solution};

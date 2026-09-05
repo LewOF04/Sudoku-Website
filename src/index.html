@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <center><h1>Sudoku</h1></center>
+    <center><h1>Lightblue Sudoku</h1></center>
 
     <div id = "msg-board">
         <div id = "dynamic-jump">Today's Message: Happy 2 Year Anniversary 💜</div>
@@ -31,6 +31,27 @@
                 textContainer.appendChild(span);
             });
         </script>
+    </div>
+
+    <div id="game-complete-overlay" class="hidden">
+        <div id="game-complete-box">
+            <button id="close-popup" class="close-popup" aria-label="Close">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 6L18 18M18 6L6 18"/>
+                </svg>
+            </button>
+
+            <h2>Sudoku Complete!</h2>
+
+            <div id = "popup-content">
+                <p>Difficulty: <span id="final-difficulty"></span></p>
+                <p>Time: <span id="final-time"></span></p>
+                <p>Errors: <span id="final-errors"></span></p>
+                <p>Score: <span id="final-score"></span></p>
+            </div>
+
+            <button id="new-game-popup" class="new-game-popup">New Game</button>
+        </div>
     </div>
 
     <div class = "game-container">

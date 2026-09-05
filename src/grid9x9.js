@@ -11,6 +11,8 @@ export class grid9x9{
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0]
         ];
+
+        this.filledCells = 0;
     }
 
     /**
@@ -106,6 +108,7 @@ export class grid9x9{
 
         let newObj = new grid9x9();
         newObj.grid = newGrid;
+        newObj.filledCells = this.filledCells;
 
         return newObj;
     }
@@ -139,5 +142,22 @@ export class grid9x9{
             }
         }
         return true;
+    }
+
+    /**
+     * Update the internal grid
+     * @param {*} row - the row index 
+     * @param {*} col - the column index
+     * @param {*} val - the value we're setting it as
+     */
+    updateGrid(row, col, val){
+        if(this.grid[row][col] == 0 && val != 0) this.filledCells++;
+        if(this.grid[row][col] != 0 && val == 0) this.filledCells--;
+
+        this.grid[row][col] = val;
+    }
+
+    getFilledCellNum(){
+        return this.filledCells;
     }
 }

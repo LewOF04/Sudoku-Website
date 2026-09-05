@@ -1,5 +1,6 @@
 import {generateSudoku} from "../src/generate_sudoku.js";
-import {toggleTimer, resetTimer, timerRunning} from "./timer.js";
+import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
+import {getScore} from "./ranking_system.js";
 
 const gridElement = document.getElementById("sudoku-grid");
 const newGameButton = document.getElementById("new-game");
@@ -15,9 +16,13 @@ const timerDisplay = document.getElementById("timer-display");
 const playPauseBtn = document.getElementById("playPauseBtn");
 const playIcon = document.getElementById("playIcon");
 const pauseIcon = document.getElementById("pauseIcon");
+const gameCompleteOverlay = document.getElementById("game-complete-overlay");
+const overlayNewGameButton = document.getElementById("new-game-popup");
+const closePopupButton = document.getElementById("close-popup");
 let gameStarted = false;
 
 let errors = 0;
+let difficulty = "";
 
 const cellReferences = [
     [null, null, null, null, null, null, null, null, null],
@@ -41,7 +46,8 @@ numpad.addEventListener("click", (event) => {
 
         updateGrid(selectedCell); //update backend grid
         if(checkValidity(input)){ //check if placement is valid
-            checkCompletion(input); //check if placement completes grid sub section
+            checkSubCompletion(input); //check if placement completes grid sub section
+            checkCompletion(); //check whether the sudoku is complete
         }
     }
 });
@@ -74,6 +80,15 @@ playPauseBtn.addEventListener("click",  () => {
 
 newGameButton.addEventListener("click", loadGame); //performs load game upon new game selection
 
+overlayNewGameButton.addEventListener("click", () => {
+    hideEndOverlay();
+    loadGame();
+});
+
+closePopupButton.addEventListener("click", () => {
+    hideEndOverlay();
+});
+
 /**
  * Listener for when the grid is selected initially.
  * Controls the timer from the point of selection
@@ -97,7 +112,7 @@ gridElement.addEventListener("click", () => {
  * Reset sudoku grid based on player selection
  */
 function loadGame() {
-    let difficulty = difficultySelect.value;
+    difficulty = difficultySelect.value;
     let min = -1;
     let max = -1;
 
@@ -123,6 +138,9 @@ function loadGame() {
     errors = 0;
     gridElement.classList.remove("paused");
     message.classList.remove("paused");
+    numpad.classList.remove("paused");
+    playPauseBtn.classList.remove("paused");
+    timerDisplay.classList.remove("paused");
 
     resetTimer(timerDisplay);
 }
@@ -180,7 +198,8 @@ function displayGrid(grid) {
 
                 updateGrid(input); //update backend grid
                 if(checkValidity(input)){ //check if placement is valid
-                    checkCompletion(input); //check if placement completes grid sub section
+                    checkSubCompletion(input); //check if placement completes grid sub section
+                    checkCompletion(); //check if the sudoku is complete
                 }
             });
 
@@ -196,7 +215,7 @@ function displayGrid(grid) {
 function updateGrid(cell){
     let value = 0;
     if(cell.value != "") value = parseInt(cell.value);
-    currentGrid.grid[cell.dataset.row][cell.dataset.col] = value;
+    currentGrid.updateGrid(cell.dataset.row, cell.dataset.col, value);
 
     console.log("New Grid:\n"+currentGrid.toString());
 }
@@ -245,7 +264,7 @@ function checkValidity(cell){
  * If so, play completion animation.
  * @param {*} cell - the cell which has been added
  */
-function checkCompletion(cell){
+function checkSubCompletion(cell){
     let rowInfo = currentGrid.getRow(cell.dataset.row);
     let columnInfo = currentGrid.getColumn(cell.dataset.col);
 
@@ -260,6 +279,21 @@ function checkCompletion(cell){
     }
     if(arrayIsComplete(gridInfo.values)){
         flashCells(cell, gridInfo.positions, "grid");
+    }
+}
+
+function checkCompletion(){
+    if(currentGrid.getFilledCellNum() == 81){ //if the whole grid is filled
+        //pulse all cells
+        for(let i = 0; i < 9; i++){
+            for(let j = 0; j < 9; j++){
+                let cell = cellReferences[i][j];
+                pulseCell(cell, 0);
+            }
+        }
+
+        toggleTimer();
+        showEndOverlay();
     }
 }
 
@@ -364,6 +398,27 @@ function pulseCell(cell, distance){
         }, { once: true });
 
     }, delay);
+}
+
+function showEndOverlay(){
+    gridElement.classList.add("paused");
+    numpad.classList.add("paused");
+    playPauseBtn.classList.add("paused");
+    timerDisplay.classList.add("paused");
+
+    let score = getScore(difficulty, errors);
+    let time = getTime(); 
+
+    document.getElementById("final-difficulty").textContent = String(difficulty).charAt(0).toUpperCase() + String(difficulty).slice(1);
+    document.getElementById("final-errors").textContent = errors.toString();
+    document.getElementById("final-time").textContent = formatTime(time.hours*60*60+time.minutes*60+time.seconds);
+    document.getElementById("final-score").textContent = score.toFixed(2);
+
+    gameCompleteOverlay.classList.remove("hidden");
+}
+
+function hideEndOverlay(){
+    gameCompleteOverlay.classList.add("hidden");
 }
 
 loadGame();

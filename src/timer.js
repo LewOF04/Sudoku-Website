@@ -8,7 +8,7 @@ let isRunning = false;
  * @param {*} seconds 
  * @returns 
  */
-function formatTime(seconds) {
+export function formatTime(seconds) {
     let hrs = Math.floor(seconds / 3600);
     let mins = Math.floor((seconds % 3600) / 60);
     let secs = seconds % 60;

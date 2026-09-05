@@ -164,10 +164,6 @@ h1 {
     font-size: 18px;
 }
 
-.hidden {
-    display: none;
-}
-
 #playPauseBtn:hover {
     opacity: 0.7;
 }
@@ -195,4 +191,72 @@ h1 {
 
 .pulse {
     animation: blueFlash 0.35s ease-out;
+}
+
+#game-complete-overlay {
+    position: fixed;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1000;
+}
+
+#game-complete-box {
+    position: relative;
+    background-color: white;
+
+    padding: 30px 40px;
+    border-radius: 15px;
+
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.close-popup {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 4px;
+
+    border: none;
+    background: none;
+
+    cursor: pointer;
+
+    opacity: 0.6;
+
+    transition: 
+        opacity 0.15s ease,
+        transform 0.15s ease;
+}
+
+.close-popup svg {
+    width: 100%;
+    height: 100%;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.close-popup:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.close-popup:active {
+    transform: scale(0.95);
 }
