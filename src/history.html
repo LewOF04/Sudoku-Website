@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Upload / Download Data | Lightblue Sudoku</title>
+    <title>Create / Manage Account | Lightblue Sudoku</title>
 
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/history.css">
 </head>
 
 <body>
@@ -55,75 +56,49 @@
         <nav>
             <a href="./index.html">Home</a>
             <a href="./sudoku.html">Play Sudoku</a>
-            <a href="./data.html" class = "active">Upload / Download Data</a>
+            <a href="./data.html">Upload / Download Data</a>
             <a href="./account.html">Create / Manage Account</a>
-            <a href="./history.html">View History</a>
+            <a href="./history.html" class = "active">View History</a>
         </nav>
 
     </aside>
 
     <div id="nav-overlay" class="nav-overlay"></div>
 
-    <main class="page-content">
-        <h1>Sudoku Data</h1>
+    <main class="account-content">
 
-        <!-- LOAD DATA -->
         <section>
-            <h2>Load Data</h2>
+        <div id = "account-info">
+            <h1>User Info</h1>
 
-            <label for="file-input">Select save file:</label>
-            <input
-                type="file"
-                id="file-input"
-                accept=".json"
-            >
-
-            <br><br>
-
-            <label for="load-password">Password:</label>
-            <input
-                type="password"
-                id="load-password"
-            >
-
-            <br><br>
-
-            <button id="load-button">
-                Load Data
-            </button>
-
-            <p id="load-message"></p>
+            <div id="account-data">
+                <p>Username: <span id="username"></span></p>
+                <div id="level">
+                    <p>Lvl: <span id="lvl-txt"></span></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                <p>Lifetime Score: <span id="lifetime-score"></span></p>
+                <p>Total Sudokus Completed: <span id="total-complete"></span></p>
+                <p>(Im)possible Sudokus Completed: <span id="impossible-complete"></span> Earned score: <span id="impossible-score"></span></p>
+                <p>Expert Sudokus Completed: <span id="expert-complete"></span> Earned score: <span id="expert-score"></span></p>
+                <p>Hard Sudokus Completed: <span id="hard-complete"></span> Earned score: <span id="hard-score"></span></p>
+                <p>Medium Sudokus Completed: <span id="medium-complete"></span> Earned score: <span id="medium-score"></span></p>
+                <p>Easy Sudokus Completed: <span id="easy-complete"></span> Earned score: <span id="easy-score"></span></p>
+                <p>Beginner Sudokus Completed: <span id="beginner-complete"></span> Earned score: <span id="beginner-score"></span></p>
+            </div>
+        </div>
         </section>
 
-
-        <hr>
-
-
-        <!-- SAVE DATA -->
-        <section>
-            <h2>Save Data</h2>
-
-            <label for="save-password">Password:</label>
-            <input
-                type="password"
-                id="save-password"
-            >
-
-            <br><br>
-
-            <button id="save-button">
-                Download Data
-            </button>
-
-            <p id="save-message"></p>
-        </section>
+        
     </main>
 
     <footer class="site-footer">
         Lightblue Sudoku © 2026
     </footer>
 
-    <script type="module" src="./js/data_page.js"></script>
+    <script type="module" src="./js/history.js"></script>
     <script src="./js/navigation.js"></script>
 
 </body>

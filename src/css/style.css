@@ -265,3 +265,11 @@ body {
 .hidden {
     display: none !important;
 }
+
+.error-message {
+    color: red;
+}
+
+.success-message{
+    color: green;
+}

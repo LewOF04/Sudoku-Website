@@ -43,6 +43,9 @@ export async function storeFromFile(file, password){
 export async function saveToFile(password) {
 
     const saveData = retrieveData();
+    if(!saveData){
+        return false;
+    }
 
     const jsonData = JSON.stringify(saveData);
 
@@ -72,6 +75,8 @@ export async function saveToFile(password) {
     link.click();
 
     URL.revokeObjectURL(url);
+
+    return true;
 }
 
 /**
@@ -87,9 +92,13 @@ export function retrieveData(){
 
     if(uData){
         userData = JSON.parse(uData);
+    }else{
+        return null;
     }
     if(gData){
         gameData = JSON.parse(gData);
+    }else{
+        return null;
     }
 
     return {userData, gameData};
@@ -103,8 +112,4 @@ export function retrieveData(){
 export function pushData(userData, gameData){
     sessionStorage.setItem("userData", JSON.stringify(userData));
     sessionStorage.setItem("gameData", JSON.stringify(gameData));
-}
-
-export function createNewFile(username){
-
 }

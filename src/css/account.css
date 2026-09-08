@@ -1,0 +1,11 @@
+#account-content{
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.new-warning{
+    color: red;
+}
