@@ -117,3 +117,25 @@ function calcTimeMultiplier(difficulty, time){
 
     return interpolateMultiplier(lowerTimeBound, upperTimeBound, time, lowerMultiplier, upperMultiplier);
 } 
+
+
+export function calcLevelPts(totalPoints){
+    let level = 0;
+    let remainingPoints = totalPoints;
+
+    let startingPoints = 100;
+    let scale = 1.1;
+
+    while (true) {
+
+        const pointsNeeded = Math.ceil(startingPoints * Math.pow(scale, level));
+
+        if (remainingPoints < pointsNeeded) {
+
+            return {level, remainingPoints, pointsNeeded};
+        }
+
+        remainingPoints -= pointsNeeded;
+        level++;
+    }
+}
