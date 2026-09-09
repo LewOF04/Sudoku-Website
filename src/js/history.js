@@ -23,10 +23,10 @@ const medComplete = document.getElementById("medium-complete");
 const easyComplete = document.getElementById("easy-complete");
 const begComplete = document.getElementById("beginner-complete");
 
-const historyContainer = document.getElementById("history-list");
+const historyList = document.getElementById("history-list");
 
 function displayHistory() {
-    const data = retrieveDate();
+    const data = retrieveData();
     
     if(!data){
         setNoData();
