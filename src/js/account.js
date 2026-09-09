@@ -24,7 +24,10 @@ createButton.addEventListener("click", async function(){
         return;
     }
 
-    let userAccount = new userData(username, 0, 0, 0, Date.now());
+    let newDate = new Date();
+    let dateString = newDate.getDate()+"/"+newDate.getMonth()+"/"+newDate.getFullYear();
+
+    let userAccount = new userData(username, 0, 0, 0, dateString);
     let userGames = new gameData(null);
 
     pushData(userAccount, userGames);
@@ -34,7 +37,10 @@ createButton.addEventListener("click", async function(){
 
 function getAccountInfo(){
     let data = retrieveData();
-    if(!data) return;
+    if(!data){
+        setNoData();
+        return;
+    } 
 
     const userData = data.userData;
     
@@ -52,7 +58,7 @@ function getAccountInfo(){
     pointProg.textContent = remPoints;
     let lvlTotalPoints = remPoints + pointsNeeded;
     pointLeft.textContent = lvlTotalPoints;
-    setProgressBar(lvlTotalPoints, 'blue');
+    setProgressBar(remPoints, 'blue');
 
     accountCreation.textContent = userData.createdOn;
 }
@@ -62,6 +68,17 @@ function setProgressBar(progress, colour){
 
     progFill.style.width = `${progress}%`;
     progFill.style.backgroundColor = colour;
+}
+
+function setNoData(){
+    nameDisplay.textContent = "N/A";
+    lvlText.textContent = "N/A";
+    lifetimeScore = "N/A";
+    accountCreation.textContent = "N/A";
+
+    pointProg.textContent = 0;
+    pointLeft.textContent = 0;
+    setProgressBar(0,'blue');
 }
 
 getAccountInfo();

@@ -65,7 +65,7 @@
 
     <div id="nav-overlay" class="nav-overlay"></div>
 
-    <main class="account-content">
+    <main class="history-content">
 
         <section>
         <div id = "account-info">
@@ -74,10 +74,15 @@
             <div id="account-data">
                 <p>Username: <span id="username"></span></p>
                 <div id="level">
-                    <p>Lvl: <span id="lvl-txt"></span></p>
+                    <span>Lvl: <span id="lvl-txt"></span></span>
+
                     <div class="progress-bar">
                         <div class="progress-fill" id="progress-fill"></div>
                     </div>
+
+                    <span>
+                        <span id="point-progress"></span>/<span id="point-left"></span>
+                    </span>
                 </div>
                 <p>Lifetime Score: <span id="lifetime-score"></span></p>
                 <p>Total Sudokus Completed: <span id="total-complete"></span></p>
@@ -91,7 +96,13 @@
         </div>
         </section>
 
-        
+        <hr><hr>
+
+        <div id="game-history">
+            <h1>Game History</h1>
+
+            <div id="history-list"></div>
+        </div>
     </main>
 
     <footer class="site-footer">

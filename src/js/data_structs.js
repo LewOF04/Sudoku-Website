@@ -10,7 +10,7 @@ export class userData{
 
 export class gameData{
     constructor(sudokuInfo){ //an array of gameInfo
-        this.sudokuGames = sudokuInfos;
+        this.sudokuGames = sudokuInfo;
     }
 }
 

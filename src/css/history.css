@@ -1,0 +1,161 @@
+.history-content {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 30px 20px;
+
+    text-align: center;
+}
+
+#level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 20px;
+
+    background-color: #ddd;
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+
+    background-color: blue;
+    border-radius: inherit;
+
+    transition: width 0.4s ease;
+}
+
+#game-history {
+    width: 100%;
+    max-width: 1000px;
+}
+
+#history-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+
+.game-card {
+    padding: 25px;
+
+    border: 1px solid #ccc;
+    border-radius: 12px;
+
+    background-color: white;
+}
+
+.game-card h2 {
+    margin-top: 0;
+}
+
+
+/* Main left/right layout */
+
+.game-card-content {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 40px;
+}
+
+
+/* Game information on left */
+
+.game-info {
+    min-width: 180px;
+
+    text-align: left;
+}
+
+.game-info p {
+    margin: 10px 0;
+}
+
+
+/* Grids on right */
+
+.history-grids {
+    display: flex;
+
+    gap: 30px;
+
+    align-items: flex-start;
+}
+
+.history-grids h3 {
+    margin-top: 0;
+
+    text-align: center;
+}
+
+
+/* Sudoku grid */
+
+.history-grid {
+    display: grid;
+
+    grid-template-columns: repeat(9, 30px);
+    grid-template-rows: repeat(9, 30px);
+
+    width: fit-content;
+}
+
+.history-cell {
+    width: 30px;
+    height: 30px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #aaa;
+
+    font-size: 16px;
+}
+
+.history-cell:nth-child(9n + 3),
+.history-cell:nth-child(9n + 6) {
+    border-right: 3px solid black;
+}
+
+.history-cell:nth-child(n + 19):nth-child(-n + 27),
+.history-cell:nth-child(n + 46):nth-child(-n + 54) {
+    border-bottom: 3px solid black;
+}
+
+@media (max-width: 800px) {
+
+    .game-card-content {
+        flex-direction: column;
+    }
+
+    .game-info {
+        text-align: center;
+    }
+
+    .history-grids {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

@@ -75,11 +75,15 @@
                 <p>Username: <span id="username"></span></p>
                 <p>Account Created On: <span id="account-creation"></span></p>
                 <div id="level">
-                    <p>Lvl: <span id="lvl-txt"></span></p>
+                    <span>Lvl: <span id="lvl-txt"></span></span>
+
                     <div class="progress-bar">
                         <div class="progress-fill" id="progress-fill"></div>
                     </div>
-                    <p><span id="point-progress"></span>/<span id="point-left"></span></p>
+
+                    <span>
+                        <span id="point-progress"></span>/<span id="point-left"></span>
+                    </span>
                 </div>
                 <p>Lifetime Score: <span id="lifetime-score"></span></p>
                 
@@ -87,12 +91,20 @@
         </div>
         </section>
 
+        <hr>
+
         <section>
         <div id="create-account">
             <h1>Create an new account</h1>
             <div class="new-warning">Creating a new account will override the currently stored data.
                                      Please download any current information before creating a new account.</div>
-            <input id="new-username">
+
+            <br>
+            
+            <div id="username-section">
+                <span>Username: </span>
+                <input id="new-username">
+            </div>
 
             <br><br>
 
