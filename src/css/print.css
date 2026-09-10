@@ -1,0 +1,201 @@
+.print-content {
+    flex: 1;
+
+    padding: 30px 20px;
+
+    text-align: center;
+}
+
+
+#print-options {
+    margin-bottom: 30px;
+}
+
+
+.difficulty-option {
+    margin: 8px 0;
+}
+
+
+.difficulty-option label {
+    display: inline-block;
+
+    width: 100px;
+
+    text-align: right;
+
+    margin-right: 10px;
+}
+
+
+.difficulty-option input {
+    width: 60px;
+
+    padding: 5px;
+}
+
+
+#generate-print,
+#print-button {
+    margin-top: 20px;
+
+    padding: 10px 20px;
+
+    font-size: 16px;
+}
+
+#print-preview {
+    margin-top: 30px;
+}
+
+
+.print-page {
+    width: fit-content;
+
+    margin: 30px auto;
+
+    padding: 30px;
+
+    border: 1px solid #ccc;
+
+    background-color: white;
+}
+
+
+.print-sudoku {
+    margin: 30px auto;
+}
+
+.print-grid {
+    display: grid;
+
+    grid-template-columns: repeat(9, 42px);
+    grid-template-rows: repeat(9, 42px);
+
+    width: fit-content;
+
+    margin: 10px auto;
+}
+
+
+.print-cell {
+    width: 42px;
+    height: 42px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    font-size: 22px;
+
+    border: 1px solid black;
+}
+
+
+/* Bold vertical 3x3 boundaries */
+
+.print-cell:nth-child(9n + 3),
+.print-cell:nth-child(9n + 6) {
+    border-right: 3px solid black;
+}
+
+
+/* Bold horizontal 3x3 boundaries */
+
+.print-cell:nth-child(n + 19):nth-child(-n + 27),
+.print-cell:nth-child(n + 46):nth-child(-n + 54) {
+    border-bottom: 3px solid black;
+}
+
+
+/* Given numbers */
+
+.print-cell.given {
+    font-weight: bold;
+
+    background: #eee;
+}
+
+@page {
+    size: A4 portrait;
+
+    margin: 15mm;
+}
+
+
+@media print {
+
+    /* Hide the website interface */
+
+    .site-header,
+    .site-footer,
+    .side-nav,
+    .nav-overlay,
+    #print-options,
+    #print-controls {
+        display: none !important;
+    }
+
+
+    body {
+        margin: 0;
+    }
+
+
+    .print-content {
+        padding: 0;
+    }
+
+
+    #print-preview {
+        margin: 0;
+    }
+
+
+    /* Each pair of Sudokus becomes one A4 page */
+
+    .print-page {
+        width: auto;
+        height: 267mm;
+
+        margin: 0;
+        padding: 0;
+
+        border: none;
+
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-around;
+        align-items: center;
+
+        break-after: page;
+    }
+
+
+    .print-page:last-child {
+        break-after: auto;
+    }
+
+
+    .print-sudoku {
+        margin: 0;
+
+        break-inside: avoid;
+    }
+
+
+    /* Keep grey clue cells when printing */
+
+    .print-cell.given {
+        background-color: #eee;
+
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+}

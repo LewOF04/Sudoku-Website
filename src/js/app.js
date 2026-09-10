@@ -1,4 +1,4 @@
-import {generateSudoku} from "./generate_sudoku.js";
+import {generateSudoku, calcClueNum} from "./generate_sudoku.js";
 import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
 import {getScore} from "./ranking_system.js";
 import {gameInfo} from "./data_structs.js";
@@ -116,18 +116,9 @@ gridElement.addEventListener("click", () => {
  */
 function loadGame() {
     difficulty = difficultySelect.value;
-    let min = -1;
-    let max = -1;
 
-    switch(difficulty){
-        case "impossible" : max = 21; min = 17; break;
-        case "expert" : max = 25; min = 22; break;
-        case "hard" : max = 29; min = 26; break;
-        case "medium" : max = 35; min = 30; break;
-        case "easy" : max = 44; min = 36; break;
-        default : max = 50; min = 45;
-    }
-    let clueNum = Math.floor(Math.random() * (max - min) + min);
+    let clueNum = calcClueNum(difficulty);
+    
     const puzzle = generateSudoku(clueNum);
     startGrid = puzzle.startGrid.copy();
     currentGrid = puzzle.startGrid;

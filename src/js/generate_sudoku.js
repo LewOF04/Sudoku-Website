@@ -139,3 +139,19 @@ export function generateSudoku(clueNum){
 
     return {startGrid, solution};
 }
+
+export function calcClueNum(difficulty){
+    let min = -1;
+    let max = -1;
+
+    switch(difficulty){
+        case "impossible" : max = 21; min = 17; break;
+        case "expert" : max = 25; min = 22; break;
+        case "hard" : max = 29; min = 26; break;
+        case "medium" : max = 35; min = 30; break;
+        case "easy" : max = 44; min = 36; break;
+        default : max = 50; min = 45;
+    }   
+        
+    return Math.floor(Math.random() * (max - min) + min);
+}

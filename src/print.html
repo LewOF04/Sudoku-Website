@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Create / Manage Account | Lightblue Sudoku</title>
+    <title>Print Sudokus | Lightblue Sudoku</title>
 
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/account.css">
+    <link rel="stylesheet" href="./css/print.css">
 </head>
 
 <body>
@@ -57,70 +57,76 @@
             <a href="./index.html">Home</a>
             <a href="./sudoku.html">Play Sudoku</a>
             <a href="./data.html">Upload / Download Data</a>
-            <a href="./account.html" class = "active">Create / Manage Account</a>
+            <a href="./account.html">Create / Manage Account</a>
             <a href="./history.html">View History</a>
-            <a href="./print.html">Print Sudokus</a>
+            <a href="./print.html" class = "active">Print Sudokus</a>
         </nav>
 
     </aside>
 
     <div id="nav-overlay" class="nav-overlay"></div>
 
-    <main class="account-content">
+    <main class="print-content">
 
-        <section>
-        <div id = "account-info">
-            <h1>Account Info</h1>
+        <section id="print-options">
 
-            <div id="account-data">
-                <p>Username: <span id="username"></span></p>
-                <p>Account Created On: <span id="account-creation"></span></p>
-                <div id="level">
-                    <span>Lvl: <span id="lvl-txt"></span></span>
+            <h1>Print Sudokus</h1>
 
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progress-fill"></div>
-                    </div>
+            <p>Select how many Sudokus you would like:</p>
 
-                    <span>
-                        <span id="point-progress"></span>/<span id="point-left"></span>
-                    </span>
-                </div>
-                <p>Lifetime Score: <span id="lifetime-score"></span></p>
-                
-            </div>
-        </div>
-        </section>
-
-        <hr>
-
-        <section>
-        <div id="create-account">
-            <h1>Create an new account</h1>
-            <div class="new-warning">Creating a new account will override the currently stored data.
-                                     Please download any current information before creating a new account.</div>
-
-            <br>
-            
-            <div id="username-section">
-                <span>Username: </span>
-                <input id="new-username">
+            <div class="difficulty-option">
+                <label for="beginner-count">Beginner:</label>
+                <input type="number" id="beginner-count" min="0" value="0">
             </div>
 
-            <br><br>
+            <div class="difficulty-option">
+                <label for="easy-count">Easy:</label>
+                <input type="number" id="easy-count" min="0" value="0">
+            </div>
 
-            <button id="create-button">Create Account</button>
+            <div class="difficulty-option">
+                <label for="medium-count">Medium:</label>
+                <input type="number" id="medium-count" min="0" value="0">
+            </div>
 
-            <p id="create-message"></p>
-        </div>
+            <div class="difficulty-option">
+                <label for="hard-count">Hard:</label>
+                <input type="number" id="hard-count" min="0" value="0">
+            </div>
+
+            <div class="difficulty-option">
+                <label for="expert-count">Expert:</label>
+                <input type="number" id="expert-count" min="0" value="0">
+            </div>
+
+            <div class="difficulty-option">
+                <label for="impossible-count">Impossible:</label>
+                <input type="number" id="impossible-count" min="0" value="0">
+            </div>
+
+            <button id="generate-print">
+                Generate Sudokus
+            </button>
+
         </section>
+
+        <section id="print-preview"></section>
+
+
+        <div id="print-controls" class="hidden">
+            <button id="print-button">
+                Print
+            </button>
+        </div>
+
     </main>
+
 
     <footer class="site-footer">
         Lightblue Sudoku © 2026
     </footer>
 
-    <script type="module" src="./js/account.js"></script>
+    <script type="module" src="./js/print.js"></script>
     <script src="./js/navigation.js"></script>
 
 </body>
