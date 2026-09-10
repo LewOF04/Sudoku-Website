@@ -1,6 +1,8 @@
 import {generateSudoku} from "./generate_sudoku.js";
 import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
 import {getScore} from "./ranking_system.js";
+import {gameInfo} from "./data_structs.js";
+import {addGame} from "./data_storage.js";
 
 const gridElement = document.getElementById("sudoku-grid");
 const newGameButton = document.getElementById("new-game");
@@ -9,6 +11,7 @@ const numpad = document.getElementById("numpad");
 const message = document.getElementById("dynamic-jump");
 
 let selectedCell = null;
+let startGrid = null;
 let currentGrid = null;
 let solutionGrid = null;
 
@@ -45,8 +48,8 @@ numpad.addEventListener("click", (event) => {
         else selectedCell.value = event.target.textContent; //set new cell value
 
         updateGrid(selectedCell); //update backend grid
-        if(checkValidity(input)){ //check if placement is valid
-            checkSubCompletion(input); //check if placement completes grid sub section
+        if(checkValidity(selectedCell)){ //check if placement is valid
+            checkSubCompletion(selectedCell); //check if placement completes grid sub section
             checkCompletion(); //check whether the sudoku is complete
         }
     }
@@ -126,6 +129,7 @@ function loadGame() {
     }
     let clueNum = Math.floor(Math.random() * (max - min) + min);
     const puzzle = generateSudoku(clueNum);
+    startGrid = puzzle.startGrid.copy();
     currentGrid = puzzle.startGrid;
     solutionGrid = puzzle.solution;
 
@@ -292,8 +296,16 @@ function checkCompletion(){
             }
         }
 
-        toggleTimer();
-        showEndOverlay();
+        toggleTimer(); //stop the timer
+
+        //alter play icon
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+        pauseIcon.classList.add("paused");
+
+        showEndOverlay(); //show end game overlay
+
+        saveCompletedGame();
     }
 }
 
@@ -415,6 +427,16 @@ function showEndOverlay(){
     document.getElementById("final-score").textContent = score.toFixed(2);
 
     gameCompleteOverlay.classList.remove("hidden");
+}
+
+function saveCompletedGame(){
+    let score = getScore(difficulty, errors);
+    let time = getTime();
+
+    let gameInfo = new gameInfo(startGrid.grid, currentGrid.grid, difficulty, 
+                                formatTime(time.hours*60*60+time.minutes*60+time.seconds), errors, score, true);
+    
+    addGame(gameInfo);
 }
 
 function hideEndOverlay(){

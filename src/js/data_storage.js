@@ -1,4 +1,5 @@
 import {encrypt, decrypt} from "./encryption.js";
+import {calcLevelPts} from "./ranking_system.js";
 
 /**
  * Store data from a uploaded file to the session storage
@@ -112,4 +113,29 @@ export function retrieveData(){
 export function pushData(userData, gameData){
     sessionStorage.setItem("userData", JSON.stringify(userData));
     sessionStorage.setItem("gameData", JSON.stringify(gameData));
+}
+
+export function addGame(data){
+    const savedData = retrieveData();
+
+    const gameData = savedData.gameData;
+    const userData = savedData.userData;
+
+    gameData.sudokuGames.push(data);
+
+    userData = updateUser(data, userData);
+
+    pushData(userData, gameData);
+}
+
+function updateUser(data, userData){
+    let totalPoints = userData.totalPoints;
+    totalPoints += data.score;
+
+    let levelInfo = calcLevelPts(totalPoints);
+    userData.level = levelInfo.level;
+    userData.points = remainingPoints;
+    userData.totalPoints = totalPoints;
+
+    return userData;
 }
