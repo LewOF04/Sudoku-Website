@@ -140,6 +140,11 @@ export function generateSudoku(clueNum){
     return {startGrid, solution};
 }
 
+/**
+ * Given a difficulty calculate the numbers of clues for that grid
+ * @param {*} difficulty string representation of the selected difficulty
+ * @returns number of clues to be shown
+ */
 export function calcClueNum(difficulty){
     let min = -1;
     let max = -1;

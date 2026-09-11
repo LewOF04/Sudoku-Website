@@ -403,6 +403,9 @@ function pulseCell(cell, distance){
     }, delay);
 }
 
+/**
+ * Shown the end of comlpeting a sudoku end screen
+ */
 function showEndOverlay(){
     gridElement.classList.add("paused");
     numpad.classList.add("paused");
@@ -420,6 +423,9 @@ function showEndOverlay(){
     gameCompleteOverlay.classList.remove("hidden");
 }
 
+/**
+ * Upon game completion save the game to the users files (if they have one)
+ */
 function saveCompletedGame(){
     let score = getScore(difficulty, errors);
     let time = getTime();

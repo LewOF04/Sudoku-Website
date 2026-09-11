@@ -5,6 +5,7 @@ export class userData{
         this.points = pts;
         this.totalPoints = totalPts;
         this.createdOn = crtOn;
+        this.unfinishedGame = null;
     }
 }
 

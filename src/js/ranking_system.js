@@ -118,7 +118,11 @@ function calcTimeMultiplier(difficulty, time){
     return interpolateMultiplier(lowerTimeBound, upperTimeBound, time, lowerMultiplier, upperMultiplier);
 } 
 
-
+/**
+ * Given total points tally, calculate the level and level progress
+ * @param {*} totalPoints - the total number of points elapsed by the player
+ * @returns {level, remainingPoints, pointsNeeded} - the players level, points into the level, points needed to complete the level respectively
+ */
 export function calcLevelPts(totalPoints){
     let level = 0;
     let remainingPoints = totalPoints;
