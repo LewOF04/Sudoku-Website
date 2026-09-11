@@ -153,6 +153,11 @@ function displayGrid(grid) {
             const cell = document.createElement("input");
 
             cell.type = "text";
+            const isTouchDevice =
+                window.matchMedia("(pointer: coarse)").matches ||
+                navigator.maxTouchPoints > 0;
+
+            cell.inputMode = isTouchDevice ? "none" : "numeric";
 
             const value = grid.grid[row][col];
             cell.dataset.row = row;
