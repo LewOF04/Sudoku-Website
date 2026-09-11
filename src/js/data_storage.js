@@ -115,8 +115,13 @@ export function pushData(userData, gameData){
     sessionStorage.setItem("gameData", JSON.stringify(gameData));
 }
 
+/**
+ * Add a newly completed game to the storage
+ * @param {*} data - the gameData which has been completed
+ */
 export function addGame(data){
     const savedData = retrieveData();
+    if(!savedData) return;
 
     const gameData = savedData.gameData;
     const userData = savedData.userData;
@@ -128,6 +133,12 @@ export function addGame(data){
     pushData(userData, gameData);
 }
 
+/**
+ * Update the user data given a new game has been completed
+ * @param {*} data - the game that has been completed
+ * @param {*} userData - the exisiting user data
+ * @returns - updated user data
+ */
 function updateUser(data, userData){
     let totalPoints = userData.totalPoints;
     totalPoints += data.score;

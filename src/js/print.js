@@ -11,6 +11,9 @@ printButton.addEventListener("click", () => {
     window.print();
 });
 
+/**
+ * Iterate over all possible difficulties and create sudoku grids for each difficulty and the number specified.
+ */
 function generatePrintSudokus() {
     preview.innerHTML = "";
 
@@ -26,56 +29,63 @@ function generatePrintSudokus() {
     ];
 
     for (const difficulty of difficulties) {
-        const input = document.getElementById(`${difficulty}-count`);
-
-        const amount = Math.max(0, parseInt(input.value) || 0);
+        const count = document.getElementById(`${difficulty}-count`);
+        const amount = Math.max(0, parseInt(count.value) || 0);
 
         for (let i = 0; i < amount; i++) {
-            const clueNum = calcClueNum(difficulty);
-            const puzzle = generateSudoku(clueNum);
-            requestedSudokus.push({difficulty: difficulty, grid: puzzle.startGrid});
+            const clueNum = calcClueNum(difficulty); //calculate the number of clues for the puzzle
+            const puzzle = generateSudoku(clueNum); //create sudoku grid
+            requestedSudokus.push({difficulty: difficulty, grid: puzzle.startGrid}); //add to the requested sudokus
         }
     }
 
+    //if there are no sudokus, don't show print option
     if (requestedSudokus.length === 0) {
         printControls.classList.add("hidden");
         return;
     }
 
-    createPages(requestedSudokus);
+    createPages(requestedSudokus); //create the sub-pages for printing purposes
 
     printControls.classList.remove("hidden");
 }
 
+/**
+ * Create sub-pages for 2-per-page sudoku printing
+ * @param {*} sudokus - list of sudokus which are to be printed
+ */
 function createPages(sudokus) {
     for (let i = 0; i < sudokus.length; i += 2) {
-        const page = document.createElement("div");
-        page.classList.add("print-page");
+        const page = document.createElement("div"); //create a sub-page div
+        page.classList.add("print-page"); 
 
-        page.appendChild(
-            createPrintSudoku(sudokus[i])
-        );
+        page.appendChild(createPrintSudoku(sudokus[i])); //add formatted sudoku grid
 
-        if (sudokus[i + 1]) {
-            page.appendChild(createPrintSudoku(sudokus[i + 1]));
-        }
+        if (sudokus[i + 1]) {page.appendChild(createPrintSudoku(sudokus[i + 1]));} //if there is another sudoku, also add
 
-        preview.appendChild(page);
+        preview.appendChild(page); //add to view
     }
 }
 
+/**
+ * Wrapper function for each individual sudoku grid element
+ * @param {*} sudoku - the sudoku we wish to display
+ * @returns - the complete wrapper with the internally defined sudoku grid
+ */
 function createPrintSudoku(sudoku) {
     const wrapper = document.createElement("div");
 
     wrapper.classList.add("print-sudoku");
-
-    wrapper.appendChild(
-        createPrintGrid(sudoku.grid)
-    );
+    wrapper.appendChild(createPrintGrid(sudoku.grid));
 
     return wrapper;
 }
 
+/**
+ * Defines individual sudoku grid layout
+ * @param {*} grid - the grid we wish to define
+ * @returns - designed sudoku grid
+ */
 function createPrintGrid(grid) {
     const gridElement = document.createElement("div");
     gridElement.classList.add("print-grid");
