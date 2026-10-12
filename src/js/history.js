@@ -1,5 +1,6 @@
 import {retrieveData} from "./data_storage.js";
 import {calcLevelPts} from "./ranking_system.js";
+import {formatTime} from "./timer.js";
 
 const nameDisplay = document.getElementById("username");
 const lvlText = document.getElementById("lvl-txt");
@@ -49,9 +50,11 @@ function displayHistory() {
     let pointsNeeded = lvlInfo.pointsNeeded;
 
     pointProg.textContent = remPoints;
-    let lvlTotalPoints = remPoints + pointsNeeded;
-    pointLeft.textContent = lvlTotalPoints;
-    setProgressBar(remPoints, 'blue');
+   
+    pointLeft.textContent = pointsNeeded;
+
+    let progressPercentage = (remPoints / pointsNeeded) * 100;
+    setProgressBar(progressPercentage, 'blue');
 
     //set history information
     let impNum = 0;
@@ -109,7 +112,7 @@ function displayHistory() {
 function setNoData(){
     nameDisplay.textContent = "N/A";
     lvlText.textContent = "N/A";
-    lifetimeScore = "N/A";
+    lifetimeScore.textContent = "N/A";
 
     pointProg.textContent = 0;
     pointLeft.textContent = 0;

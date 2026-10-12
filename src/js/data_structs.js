@@ -1,4 +1,4 @@
-export class userData{
+export class UserData{
     constructor(name, lvl, pts, totalPts, crtOn){
         this.username = name;
         this.level = lvl;
@@ -9,13 +9,13 @@ export class userData{
     }
 }
 
-export class gameData{
-    constructor(sudokuInfo){ //an array of gameInfo
+export class GameData{
+    constructor(sudokuInfo = []){ //an array of gameInfo
         this.sudokuGames = sudokuInfo;
     }
 }
 
-export class gameInfo{
+export class GameInfo{
     constructor(strtGrid, finGrid, diff, time, errs, scr, isFin){
         this.startGrid = strtGrid;
         this.finalGrid = finGrid;

@@ -6,7 +6,7 @@
  * [online] Available at: https://arxiv.org/pdf/2507.09708 [Accessed 20 Aug. 2026].
  */
 
-import {grid9x9} from "./grid9x9.js";
+import {Grid9x9} from "./grid9x9.js";
 
 /**
  * Check whether a given number placement is valid given the row, column and grid
@@ -101,7 +101,7 @@ function randomizeArray(array){
  */
 export function generateSudoku(clueNum){
     console.log("Clue Number " + clueNum.toString());
-    const grid = new grid9x9();
+    const grid = new Grid9x9();
 
     let idx = [0, 3, 6];
     for(let i = 0; i< 3; i++){

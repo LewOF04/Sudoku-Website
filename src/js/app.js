@@ -1,7 +1,7 @@
 import {generateSudoku, calcClueNum} from "./generate_sudoku.js";
 import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
 import {getScore} from "./ranking_system.js";
-import {gameInfo} from "./data_structs.js";
+import {GameInfo} from "./data_structs.js";
 import {addGame} from "./data_storage.js";
 
 const gridElement = document.getElementById("sudoku-grid");
@@ -435,7 +435,7 @@ function saveCompletedGame(){
     let score = getScore(difficulty, errors);
     let time = getTime();
 
-    let gameInfo = new gameInfo(startGrid.grid, currentGrid.grid, difficulty, 
+    let gameInfo = new GameInfo(startGrid.grid, currentGrid.grid, difficulty, 
                                 formatTime(time.hours*60*60+time.minutes*60+time.seconds), errors, score, true);
     
     addGame(gameInfo);

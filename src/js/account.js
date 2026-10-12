@@ -1,5 +1,5 @@
 import {pushData, retrieveData} from "./data_storage.js";
-import {userData, gameData, gameInfo} from "./data_structs.js";
+import {UserData, GameData} from "./data_structs.js";
 import {calcLevelPts} from "./ranking_system.js";
 
 const nameDisplay = document.getElementById("username");
@@ -27,8 +27,8 @@ createButton.addEventListener("click", async function(){
     let newDate = new Date();
     let dateString = newDate.getDate()+"/"+newDate.getMonth()+"/"+newDate.getFullYear();
 
-    let userAccount = new userData(username, 0, 0, 0, dateString);
-    let userGames = new gameData(null);
+    let userAccount = new UserData(username, 0, 0, 0, dateString);
+    let userGames = new GameData();
 
     pushData(userAccount, userGames);
     createMsg.classList.add("success-message");
@@ -56,9 +56,11 @@ function getAccountInfo(){
     let pointsNeeded = lvlInfo.pointsNeeded;
 
     pointProg.textContent = remPoints;
-    let lvlTotalPoints = remPoints + pointsNeeded;
-    pointLeft.textContent = lvlTotalPoints;
-    setProgressBar(remPoints, 'blue');
+    
+    pointLeft.textContent = pointsNeeded;
+
+    let progressPercentage = (remPoints / pointsNeeded) * 100;
+    setProgressBar(progressPercentage, 'blue');
 
     accountCreation.textContent = userData.createdOn;
 }
@@ -73,7 +75,7 @@ function setProgressBar(progress, colour){
 function setNoData(){
     nameDisplay.textContent = "N/A";
     lvlText.textContent = "N/A";
-    lifetimeScore = "N/A";
+    lifetimeScore.textContent = "N/A";
     accountCreation.textContent = "N/A";
 
     pointProg.textContent = 0;
