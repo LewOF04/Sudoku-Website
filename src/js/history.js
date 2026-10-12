@@ -163,7 +163,7 @@ function createGameCard(game, index) {
 
     info.innerHTML = `
         <p><strong>Difficulty:</strong> ${game.difficulty}</p>
-        <p><strong>Time:</strong> ${formatTime(game.time)}</p>
+        <p><strong>Time:</strong> ${game.time}</p>
         <p><strong>Errors:</strong> ${game.errors}</p>
         <p><strong>Score:</strong> ${Math.round(game.score)}</p>
         <p><strong>Status:</strong> ${game.isFinished ? "Completed" : "Unfinished"}</p>
