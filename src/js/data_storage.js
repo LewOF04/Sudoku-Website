@@ -120,11 +120,15 @@ export function pushData(userData, gameData){
  * @param {*} data - the gameData which has been completed
  */
 export function addGame(data){
-    const savedData = retrieveData();
+    let savedData = retrieveData();
     if(!savedData) return;
 
-    const gameData = savedData.gameData;
-    const userData = savedData.userData;
+    let gameData = savedData.gameData;
+    let userData = savedData.userData;
+
+    if(!Array.isArray(gameData.sudokuGames)){
+        gameData.sudokuGames = [];
+    }
 
     gameData.sudokuGames.push(data);
 
@@ -145,7 +149,7 @@ function updateUser(data, userData){
 
     let levelInfo = calcLevelPts(totalPoints);
     userData.level = levelInfo.level;
-    userData.points = remainingPoints;
+    userData.points = levelInfo.remainingPoints;
     userData.totalPoints = totalPoints;
 
     return userData;

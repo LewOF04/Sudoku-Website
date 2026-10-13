@@ -1,4 +1,4 @@
-export class grid9x9{
+export class Grid9x9{
     constructor(){
         this.grid = [
             [0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -106,7 +106,7 @@ export class grid9x9{
             newGrid[i] = tempArr;
         }
 
-        let newObj = new grid9x9();
+        let newObj = new Grid9x9();
         newObj.grid = newGrid;
         newObj.filledCells = this.filledCells;
 

@@ -241,3 +241,54 @@
 .close-popup:active {
     transform: scale(0.95);
 }
+/* Pencil notes: a 3x3 candidate grid within each Sudoku cell */
+#sudoku-grid .sudoku-cell {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+}
+#sudoku-grid .sudoku-cell input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: transparent;
+}
+#sudoku-grid .sudoku-cell.given { background: #eee; }
+#sudoku-grid .sudoku-cell.invalid { background: #ec8282; }
+#sudoku-grid .sudoku-cell:nth-child(9n + 3),
+#sudoku-grid .sudoku-cell:nth-child(9n + 6) { border-right: 3px solid black; }
+#sudoku-grid .sudoku-cell:nth-child(n + 19):nth-child(-n + 27),
+#sudoku-grid .sudoku-cell:nth-child(n + 46):nth-child(-n + 54) { border-bottom: 3px solid black; }
+#sudoku-grid .sudoku-cell input { border: 0; width: 100%; height: 100%; }
+#sudoku-grid .cell-notes {
+    position: absolute;
+    inset: 2px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    pointer-events: none;
+}
+#sudoku-grid .cell-notes span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #3978aa;
+    line-height: 1;
+}
+#sudoku-grid .sudoku-cell:has(input:not(:placeholder-shown)) .cell-notes { display: none; }
+#note-mode {
+    display: block;
+    margin: 12px auto 0;
+    padding: 9px 18px;
+    cursor: pointer;
+    border: 1px solid #5799c9;
+    border-radius: 8px;
+    background: white;
+}
+#note-mode.active { background: #cbeeff; border-color: #1976b9; }
+
+#sudoku-grid .sudoku-cell.given .cell-notes { display: none; }
+
+#sudoku-grid .sudoku-cell { border: 1px solid black; }

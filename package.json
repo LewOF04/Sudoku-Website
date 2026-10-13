@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/LewOF04/Sudoku-Website#readme",
   "devDependencies": {
+    "http-server": "^14.1.1",
     "vitest": "^4.1.11"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import {generateSudoku, calcClueNum} from "./generate_sudoku.js";
 import {toggleTimer, resetTimer, timerRunning, getTime, formatTime} from "./timer.js";
 import {getScore} from "./ranking_system.js";
-import {gameInfo} from "./data_structs.js";
+import {GameInfo} from "./data_structs.js";
 import {addGame} from "./data_storage.js";
 
 const gridElement = document.getElementById("sudoku-grid");
@@ -24,6 +24,16 @@ const overlayNewGameButton = document.getElementById("new-game-popup");
 const closePopupButton = document.getElementById("close-popup");
 let gameStarted = false;
 
+const noteModeButton = document.getElementById("note-mode");
+let noteMode = false;
+let notes = Array.from(
+    {length: 9},
+    () => Array.from(
+        {length: 9},
+        () => new Set()
+    )
+); //notes store
+
 let errors = 0;
 let difficulty = "";
 
@@ -40,19 +50,11 @@ const cellReferences = [
 ];
 
 /**
- * Controls clicking of number pad
- */
+* Controls clicking of number pad
+*/
 numpad.addEventListener("click", (event) => {
-    if (event.target.tagName === "BUTTON" && selectedCell !== null) {
-        if(event.target.textContent === "X") selectedCell.value = ""; //set value to null if X
-        else selectedCell.value = event.target.textContent; //set new cell value
-
-        updateGrid(selectedCell); //update backend grid
-        if(checkValidity(selectedCell)){ //check if placement is valid
-            checkSubCompletion(selectedCell); //check if placement completes grid sub section
-            checkCompletion(); //check whether the sudoku is complete
-        }
-    }
+    if (event.target.tagName !== "BUTTON") return;
+    enterNumber(selectedCell, event.target.textContent.trim());
 });
 
 /**
@@ -112,10 +114,90 @@ gridElement.addEventListener("click", () => {
 });
 
 /**
+ * Event listener for change between note mode
+ */
+noteModeButton.addEventListener("click", () => {
+    noteMode = !noteMode;
+
+    noteModeButton.classList.toggle("active", noteMode);
+
+    noteModeButton.setAttribute("aria-pressed", String(noteMode));
+
+    noteModeButton.textContent = noteMode
+        ? "Notes: On"
+        : "Notes: Off";
+});
+
+function updateNotesDisplay(row, col) {
+    const cell = cellReferences[row][col];
+    const noteGrid = cell.parentElement.querySelector(".cell-notes");
+    [...noteGrid.children].forEach((span, i) => {
+        span.textContent = notes[row][col].has(i + 1) ? String(i + 1) : "";
+    });
+}
+
+/**
+ * Handles number entering logic 
+ * @param {*} cell - the cell which we're entering the number into
+ * @param {*} value - the value which we're entering into the cell
+ * @returns - early returns for logic flow
+ */
+function enterNumber(cell, value) {
+    //ensure the cell can currently be edited
+    if (!cell || cell.readOnly || gridElement.classList.contains("paused")) return;
+
+    const row = Number(cell.dataset.row);
+    const col = Number(cell.dataset.col);
+
+    //only accept 1-9 or X
+    if (!/^[1-9]$/.test(value) && value !== "X") return;
+
+    //NOTES MODE
+    if (noteMode) {
+        if (value === "X") {
+            notes[row][col].clear();
+        }
+        else if (currentGrid.grid[row][col] == 0) {
+            const number = Number(value);
+
+            if (notes[row][col].has(number)) {
+                notes[row][col].delete(number);
+            }
+            else {
+                notes[row][col].add(number);
+            }
+        }
+
+        updateNotesDisplay(row, col);
+        return;
+    }
+
+    //NORMAL MODE
+    const newValue = value === "X" ? "" : value;
+
+    cell.value = newValue;
+    cell.dataset.previousValue = newValue || "0";
+
+    //clear notes for this cell
+    notes[row][col].clear();
+    updateNotesDisplay(row, col);
+
+    //update the actual Sudoku grid
+    updateGrid(cell);
+    //check placement and completion
+    if (checkValidity(cell)) {
+        checkSubCompletion(cell);
+        checkCompletion();
+    }
+}
+
+/**
  * Reset sudoku grid based on player selection
  */
 function loadGame() {
     difficulty = difficultySelect.value;
+    selectedCell = null;
+    notes = Array.from({length: 9}, () => Array.from({length: 9}, () => new Set()));
 
     let clueNum = calcClueNum(difficulty);
     
@@ -153,6 +235,7 @@ function displayGrid(grid) {
             const cell = document.createElement("input");
 
             cell.type = "text";
+            cell.placeholder = "";
             const isTouchDevice =
                 window.matchMedia("(pointer: coarse)").matches ||
                 navigator.maxTouchPoints > 0;
@@ -179,31 +262,30 @@ function displayGrid(grid) {
                 }
             });
 
-            //event upon cell input
-            cell.addEventListener("input", (event) => {
-                const input = event.target;
-                
-                //limit to only the latest character
-                if (input.value.length > 1) {
-                    input.value = input.value.slice(-1);
+            //event upon cell alteration
+            cell.addEventListener("keydown", (event) => {
+                if (/^[1-9]$/.test(event.key)) {
+                    event.preventDefault();
+                    enterNumber(cell, event.key);
                 }
-
-                // Only allow "" or 1-9
-                if (!/^[1-9]?$/.test(input.value)) {
-                    if(input.dataset.previousValue == 0) input.value = ""; //set to nothing
-                    else input.value = input.dataset.previousValue; //retain the previous number
+                else if (event.key === "Backspace" || event.key === "Delete") {
+                    event.preventDefault();
+                    enterNumber(cell, "X");
                 }
-                
-                input.dataset.previousValue = input.value;
-
-                updateGrid(input); //update backend grid
-                if(checkValidity(input)){ //check if placement is valid
-                    checkSubCompletion(input); //check if placement completes grid sub section
-                    checkCompletion(); //check if the sudoku is complete
+                else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+                    event.preventDefault();
                 }
             });
 
-            gridElement.appendChild(cell);
+            const wrapper = document.createElement("div");
+            wrapper.className = "sudoku-cell";
+            if(cell.readOnly) wrapper.classList.add("given");
+            const noteGrid = document.createElement("div");
+            noteGrid.className = "cell-notes";
+            for(let n = 1; n <= 9; n++) noteGrid.appendChild(document.createElement("span"));
+            wrapper.appendChild(noteGrid);
+            wrapper.appendChild(cell);
+            gridElement.appendChild(wrapper);
         }
     }
 }
@@ -435,7 +517,7 @@ function saveCompletedGame(){
     let score = getScore(difficulty, errors);
     let time = getTime();
 
-    let gameInfo = new gameInfo(startGrid.grid, currentGrid.grid, difficulty, 
+    let gameInfo = new GameInfo(startGrid.grid, currentGrid.grid, difficulty, 
                                 formatTime(time.hours*60*60+time.minutes*60+time.seconds), errors, score, true);
     
     addGame(gameInfo);
