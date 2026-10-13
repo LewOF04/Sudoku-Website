@@ -392,18 +392,12 @@ function checkCompletion(){
  * @param {*} positions 
  * @param {*} isValid 
  */
-function setValidColour(positions, isValid){
-    let cellToColour = null;
-    if(isValid){
-        for(let i = 0; i < positions.length; i++){
-            cellToColour = cellReferences[positions[i].row][positions[i].col];
-            cellToColour.classList.remove("invalid");
-        }
-    } else{
-        for(let i = 0; i < positions.length; i++){
-            cellToColour = cellReferences[positions[i].row][positions[i].col];
-            cellToColour.classList.add("invalid");
-        }
+function setValidColour(positions, isValid) {
+    for (const position of positions) {
+        const cell = cellReferences[position.row][position.col];
+        const wrapper = cell.parentElement;
+
+        wrapper.classList.toggle("invalid", !isValid);
     }
 }
 
@@ -477,14 +471,20 @@ function flashCells(startCell, allCells, type) {
  * @param {*} cell 
  * @param {*} distance 
  */
-function pulseCell(cell, distance){
+function pulseCell(cell, distance) {
     const delay = distance * 100;
+    const wrapper = cell.parentElement;
 
     setTimeout(() => {
-        cell.classList.add("pulse");
+        wrapper.classList.remove("pulse");
 
-        cell.addEventListener("animationend", () => {
-            cell.classList.remove("pulse");
+        // Restart the animation if triggered again
+        void wrapper.offsetWidth;
+
+        wrapper.classList.add("pulse");
+
+        wrapper.addEventListener("animationend", () => {
+            wrapper.classList.remove("pulse");
         }, { once: true });
 
     }, delay);
