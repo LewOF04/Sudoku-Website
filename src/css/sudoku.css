@@ -26,6 +26,11 @@
     border: 1px solid black;
 }
 
+#sudoku-grid .sudoku-cell.selected {
+    outline: 2px solid #2196f3;
+    outline-offset: -2px;
+}
+
 #sudoku-grid input:nth-child(9n + 3),
 #sudoku-grid input:nth-child(9n + 6) {
     border-right: 3px solid black;

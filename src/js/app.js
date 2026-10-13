@@ -256,10 +256,19 @@ function displayGrid(grid) {
             }
             
             //add event listener for last selected cell
-            cell.addEventListener("click", () => {
-                if (!cell.readOnly) {
-                    selectedCell = cell;
+            cell.addEventListener("pointerdown", () => {
+                if (cell.readOnly) return;
+
+                //remove highlight from previously selected cell
+                if (selectedCell) {
+                    selectedCell.parentElement.classList.remove("selected");
                 }
+
+                //store the newly selected cell
+                selectedCell = cell;
+
+                //highlight the newly selected cell
+                cell.parentElement.classList.add("selected");
             });
 
             //event upon cell alteration
