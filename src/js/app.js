@@ -56,6 +56,11 @@ numpad.addEventListener("click", (event) => {
     if (event.target.tagName !== "BUTTON") return;
     enterNumber(selectedCell, event.target.textContent.trim());
 });
+numpad.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("button")) {
+        event.preventDefault();
+    }
+});
 
 /**
  * Controls start and stop of timer
