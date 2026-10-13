@@ -282,7 +282,9 @@
     color: #3978aa;
     line-height: 1;
 }
-#sudoku-grid .sudoku-cell:has(input:not(:placeholder-shown)) .cell-notes { display: none; }
+#sudoku-grid .sudoku-cell.has-value .cell-notes {
+    display: none;
+}
 #note-mode {
     display: block;
     margin: 12px auto 0;
