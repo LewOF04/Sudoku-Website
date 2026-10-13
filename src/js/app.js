@@ -132,6 +132,11 @@ noteModeButton.addEventListener("click", () => {
         ? "Notes: On"
         : "Notes: Off";
 });
+noteModeButton.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("button")) {
+        event.preventDefault();
+    }
+});
 
 function updateNotesDisplay(row, col) {
     const cell = cellReferences[row][col];
@@ -181,6 +186,7 @@ function enterNumber(cell, value) {
     const newValue = value === "X" ? "" : value;
 
     cell.value = newValue;
+    cell.parentElement.classList.toggle("has-value", newValue !== "");
     cell.dataset.previousValue = newValue || "0";
 
     //clear notes for this cell
@@ -299,6 +305,7 @@ function displayGrid(grid) {
             for(let n = 1; n <= 9; n++) noteGrid.appendChild(document.createElement("span"));
             wrapper.appendChild(noteGrid);
             wrapper.appendChild(cell);
+            wrapper.classList.toggle("has-value", value !== 0);
             gridElement.appendChild(wrapper);
         }
     }
