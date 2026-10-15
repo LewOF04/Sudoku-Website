@@ -107,12 +107,15 @@ function displayHistory() {
     medComplete.textContent = medCount;
     easyComplete.textContent = easyCount;
     begComplete.textContent = begCount;
+
+    totalComplete.textContent = String(impCount+expCount+hardCount+medCount+easyCount+begCount);
 }
 
 function setNoData(){
     nameDisplay.textContent = "N/A";
     lvlText.textContent = "N/A";
     lifetimeScore.textContent = "N/A";
+    totalComplete.textContent = "N/A";
 
     pointProg.textContent = 0;
     pointLeft.textContent = 0;
